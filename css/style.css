@@ -6,6 +6,10 @@ body {
     padding: 0;
 }
 
+body, .text {
+  font: normal 300 16px/20px 'Nunito Sans', sans-serif;
+}
+
 #map {
 
     bottom:0px;
@@ -17,6 +21,19 @@ body {
 
 input {
     font-size: 12px;
+}
+
+::-webkit-input-placeholder {
+    color: #b3b8b6;
+}
+::-moz-placeholder {
+    color: #b3b8b6;
+}
+:-ms-input-placeholder {
+    color: #b3b8b6;
+}
+:-moz-placeholder {
+    color: #b3b8b6;
 }
 
 .h1 {
@@ -36,6 +53,11 @@ input {
     width: 340px;
 }
 
+#places-search,
+#filter {
+    width: 90%;
+}
+
 /* not sure if I'm going to use these styles */
 
 #pano {
@@ -43,14 +65,8 @@ input {
         height: 200px;
       }
 
-      #places-search,
-      #search-within-time-text {
-        width: 84%;
-      }
 
-      .text {
-        font-size: 12px;
-      }
+
 
       #toggle-drawing {
         width: 27%;
