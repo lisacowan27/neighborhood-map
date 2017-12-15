@@ -4,7 +4,12 @@ var locations = [{title: 'Hippie Hollow Park', location: {lat: 30.413155, lng: -
     {title: 'Barton Springs', location: {lat: 30.2640024, lng: -97.7709723}},
     {title: 'Woodlawn (Pease Mansion)', location: {lat: 30.2640901, lng: -97.797237}},
     {title: 'West Sixth Street Bridge', location: {lat: 30.2730245, lng: -97.7601438}},
-    {title: 'Austin State Hospital', location: {lat: 30.3075604, lng: -97.7392435}}
+    {title: 'Mt Bonnell', location: {lat: 30.3207599, lng: -97.7908498}},
+    {title: 'McKinney Falls State Park', location: {lat: 30.1803582, lng: -97.7239284}},
+    {title: 'El Arroyo', location: {lat: 30.2749658, lng: -97.7667907}},
+    {title: 'UT Tower', location: {lat: 30.2862394, lng: -97.7445772}},
+    {title: 'The Caswell House', location: {lat: 30.2789671, lng: -97.7499303}},
+    {title: "St. Edward\'s Park", location: {lat: 30.4054917, lng: -97.7934439}}
 ];
 
 
@@ -175,7 +180,6 @@ function initMap() {
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 30.267153, lng: -97.7430608},
-      zoom: 13,
       styles: styles,
       mapTypeControl: false
     });
