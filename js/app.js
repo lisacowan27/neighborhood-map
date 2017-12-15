@@ -18,71 +18,157 @@ var markers = [];
 function initMap() {
     // Create a styles array to use with the map.
     var styles = [
-      {
-        featureType: 'water',
-        stylers: [
-          { color: '#19a0d8' }
+    {
+        "featureType": "administrative",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#6195a0"
+            }
         ]
-      },{
-        featureType: 'administrative',
-        elementType: 'labels.text.stroke',
-        stylers: [
-          { color: '#ffffff' },
-          { weight: 6 }
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#f2f2f2"
+            }
         ]
-      },{
-        featureType: 'administrative',
-        elementType: 'labels.text.fill',
-        stylers: [
-          { color: '#e85113' }
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            }
         ]
-      },{
-        featureType: 'road.highway',
-        elementType: 'geometry.stroke',
-        stylers: [
-          { color: '#efe9e4' },
-          { lightness: -40 }
+    },
+    {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
         ]
-      },{
-        featureType: 'transit.station',
-        stylers: [
-          { weight: 9 },
-          { hue: '#e85113' }
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#e6f3d6"
+            },
+            {
+                "visibility": "on"
+            }
         ]
-      },{
-        featureType: 'road.highway',
-        elementType: 'labels.icon',
-        stylers: [
-          { visibility: 'off' }
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "saturation": -100
+            },
+            {
+                "lightness": 45
+            },
+            {
+                "visibility": "simplified"
+            }
         ]
-      },{
-        featureType: 'water',
-        elementType: 'labels.text.stroke',
-        stylers: [
-          { lightness: 100 }
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
         ]
-      },{
-        featureType: 'water',
-        elementType: 'labels.text.fill',
-        stylers: [
-          { lightness: -100 }
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#f4d2c5"
+            },
+            {
+                "visibility": "simplified"
+            }
         ]
-      },{
-        featureType: 'poi',
-        elementType: 'geometry',
-        stylers: [
-          { visibility: 'on' },
-          { color: '#f0e4d3' }
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "color": "#4e4e4e"
+            }
         ]
-      },{
-        featureType: 'road.highway',
-        elementType: 'geometry.fill',
-        stylers: [
-          { color: '#efe9e4' },
-          { lightness: -25 }
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#f4f4f4"
+            }
         ]
-      }
-    ];
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#787878"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#eaf6f8"
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#eaf6f8"
+            }
+        ]
+    }
+];
 
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
