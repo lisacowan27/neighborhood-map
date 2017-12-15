@@ -3,14 +3,14 @@
   <head>
     <title>Neighborhood Map Project</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600|Indie+Flower" rel="stylesheet">
-    <link rel="stylesheet" href="css/minireset">
+    <link rel="stylesheet" href="css/minireset.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <div class="container">
         <div class="options-box">
             <h1 class="h1">Things of Interest in the Austin Area</h1>
-            <div>
+            <!--<div>
               <input id="show-listings" type="button" value="Show Listings">
               <input id="hide-listings" type="button" value="Hide Listings">
               <hr>
@@ -46,32 +46,10 @@
               <span class="text">Search for nearby places</span>
               <input id="places-search" type="text" placeholder="Ex: Pizza delivery in NYC">
               <input id="go-places" type="button" value="Go">
-            </div>
+            </div>-->
         </div>
         <div id="map"></div>
     </div>
-    <script>
-      var map;
-      function initMap() {
-        // Constructor creates a new map - only center and zoom are required.
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 30.267153, lng: -97.7430608},
-          zoom: 10
-        });
-        var home = {lat: 30.267153, lng: -97.7430608};
-        var marker = new google.maps.Marker({
-          position: home,
-          map: map,
-          title: 'This is home!'
-        });
-        var infowindow = new google.maps.InfoWindow({
-          content: 'This is a happy house'
-        });
-        marker.addListener('click', function(){
-          infowindow.open(map, marker);
-        });
-      }
-    </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc9mAdPceShuI_bAvK_BXRb_MFf9nNdTM&v=3&callback=initMap">
     </script>
