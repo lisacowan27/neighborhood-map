@@ -10,9 +10,16 @@
     <div class="container">
         <div class="options-box">
             <h1 class="h1">Things of Interest in the Austin Area</h1>
+            <div>
+              <p class="text">To learn more about an area of interest, start to type the name, or click on one of the icons.</p>
+              <input id="filter" type="text">
+              <ul data-bind="foreach: locationList" class="location-list">
+                <li data-bind="text: title"></li>
+              </ul>
+            </div>
             <hr>
             <div>
-              <span class="text">Search Google Maps</span>
+              <p class="text">Search Google Maps</p>
               <input id="places-search" type="text" placeholder="Ex: Bob Bullock Museum">
               <input id="go-places" type="button" value="Go">
             </div>

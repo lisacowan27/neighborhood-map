@@ -1,16 +1,23 @@
 /* Knockout here -- used to handle the list, filter and any other information that is subject to changing state -- the Model stuff */
 
-var locations = [{title: 'Hippie Hollow Park', location: {lat: 30.413155, lng: -97.884064}},
-    {title: 'Barton Springs', location: {lat: 30.2640024, lng: -97.7709723}},
-    {title: 'Woodlawn (Pease Mansion)', location: {lat: 30.2640901, lng: -97.797237}},
-    {title: 'West Sixth Street Bridge', location: {lat: 30.2730245, lng: -97.7601438}},
-    {title: 'Mt Bonnell', location: {lat: 30.3207599, lng: -97.7908498}},
-    {title: 'McKinney Falls State Park', location: {lat: 30.1803582, lng: -97.7239284}},
-    {title: 'El Arroyo', location: {lat: 30.2749658, lng: -97.7667907}},
-    {title: 'UT Tower', location: {lat: 30.2862394, lng: -97.7445772}},
+var locations = [{title: 'Barton Springs', location: {lat: 30.2640024, lng: -97.7709723}},
     {title: 'The Caswell House', location: {lat: 30.2789671, lng: -97.7499303}},
-    {title: "St. Edward\'s Park", location: {lat: 30.4054917, lng: -97.7934439}}
+    {title: 'El Arroyo', location: {lat: 30.2749658, lng: -97.7667907}},
+    {title: 'Hippie Hollow Park', location: {lat: 30.413155, lng: -97.884064}},
+    {title: 'McKinney Falls State Park', location: {lat: 30.1803582, lng: -97.7239284}},
+    {title: 'Mt Bonnell', location: {lat: 30.3207599, lng: -97.7908498}},
+    {title: "St. Edward\'s Park", location: {lat: 30.4054917, lng: -97.7934439}},
+    {title: 'UT Tower', location: {lat: 30.2862394, lng: -97.7445772}},
+    {title: 'West Sixth Street Bridge', location: {lat: 30.2730245, lng: -97.7601438}},
+    {title: 'Woodlawn (Pease Mansion)', location: {lat: 30.2640901, lng: -97.797237}}
 ];
+
+var Location = function (data) {
+
+    // Initializing title from locations array
+    this.title = ko.observable(data.title);
+
+};
 
 
 /* Maps API here -- used for creating markers, tracking click events on markers, making the map and refreshing the map. -- API stuff */
@@ -391,3 +398,19 @@ function initMap() {
 
 
 /* Creating markers as part of your VM is recommended, but the cannot be knockout observables.*/
+
+var ViewModel = function() {
+    // self will always map to the VM
+    var self = this;
+
+    this.locationList = ko.observableArray([]);
+
+    // Adding the cat data into the cat array
+    locations.forEach(function(locationItem){
+        self.locationList.push( new Location(locationItem) );
+    });
+
+};
+
+// Apply
+ko.applyBindings(new ViewModel());
