@@ -20,7 +20,7 @@ body, .text {
 }
 
 input {
-    font-size: 12px;
+    font-size: 16px;
 }
 
 ::-webkit-input-placeholder {
@@ -59,17 +59,20 @@ hr {
 }
 
 .options-box {
-    background: #fff;
-    border-radius: 3px;
     height: 100%;
     line-height: 35px;
-    padding: 10px 10px 30px 10px;
-    text-align: left;
 }
 
-#places-search,
-#filter {
+.places-search,
+.filter,
+.form-control,
+.input-group {
     width: 90%;
+}
+
+.fa {
+    font-size: 2em;
+    margin-left: 5px;
 }
 
 /* not sure if I'm going to use these styles */

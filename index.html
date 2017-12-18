@@ -16,13 +16,13 @@
             <div>
               <p class="text">To learn more about an area of interest, start to type the name, or click on one of the icons.</p>
               <div>
-                <input id="filter" type="text">
+                <input class="filter" type="text">
               </div>
               <ul data-bind="foreach: locationList" class="location-list">
                 <li data-bind="text: title"></li>
               </ul>
               <div class="input-group">
-                  <input id="filterInputText" type="text" class="form-control" placeholder="filter by name..." data-bind="value: locationList, valueUpdate: 'afterkeydown', event: {keyup: applyFilter}">
+                  <input id="filterInputText" type="text" class="filter form-control" placeholder="filter by name..." data-bind="value: locationList, valueUpdate: 'afterkeydown', event: {keyup: applyFilter}"><i class="fa fa-filter fa-2" aria-hidden="true"></i>
               </div>
             </div>
             <hr>
