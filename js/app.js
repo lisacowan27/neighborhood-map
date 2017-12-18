@@ -402,6 +402,7 @@ function initMap() {
 var ViewModel = function() {
     // self will always map to the VM
     var self = this;
+    var applyFilter;
 
     this.locationList = ko.observableArray([]);
 
@@ -409,6 +410,15 @@ var ViewModel = function() {
     locations.forEach(function(locationItem){
         self.locationList.push( new Location(locationItem) );
     });
+
+    this.applyFilter = function (locationItem) {
+        console.log ('this is this place name + ' );
+    };
+
+   /* this.incrementCounter = function() {
+        // this.clickCount is a ko observable
+        this.clickCount(this.clickCount() + 1);
+    };*/
 
 };
 
