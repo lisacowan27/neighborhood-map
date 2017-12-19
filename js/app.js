@@ -191,6 +191,7 @@ function initMap() {
       mapTypeControl: false
     });
 
+
     var largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
 
@@ -214,6 +215,8 @@ function initMap() {
           new google.maps.Size(21,34));
         return markerImage;
       }
+
+
 
     for (var i = 0; i < locations.length; i++) {
         // Get the position from the location array.
@@ -246,14 +249,15 @@ function initMap() {
 
           map.fitBounds(bounds);
     }
-}
 
-        // Listen for the event fired when the user selects a prediction and clicks
-        // "go" more details for that place.
-        document.getElementById('go-places').addEventListener('click', textSearchPlaces);
+    // Listen for the event fired when the user selects a prediction and clicks
+    // "go" more details for that place.
+    document.getElementById('go-places').addEventListener('click', textSearchPlaces);
 
-        // This function will loop through the listings and hide them all.
-      function hideMarkers(markers) {
+
+
+    // This function will loop through the listings and hide them all.
+    function hideMarkers(markers) {
         for (var i = 0; i < markers.length; i++) {
           markers[i].setMap(null);
         }
@@ -389,7 +393,7 @@ function initMap() {
         }
       });
     }
-
+} // close init map
 
 
 /* Tracking click event on *list items* should be handled with KO -- View stuff */
