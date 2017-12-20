@@ -40,7 +40,6 @@
 
       var largeInfowindow = new google.maps.InfoWindow();
       var bounds = new google.maps.LatLngBounds();
-      var marker = new google.maps.Marker();
 
       // Style the markers a bit. This will be our listing marker icon.
       var defaultIcon = makeMarkerIcon('00b3e6');
@@ -88,7 +87,7 @@
     self.maplist = [];
 
     locations.forEach(function(marker) {
-      self.mapList.push(marker({
+      self.mapList.push(new google.maps.Marker({
           position: position,
           map: map,
           title: title,
