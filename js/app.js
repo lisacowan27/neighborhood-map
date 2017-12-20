@@ -78,16 +78,27 @@
   var ViewPlaces = function() {
     var self = this;
 
+    /*this.catList = ko.observableArray([]);
+
+    // Adding the cat data into the cat array
+    initialCats.forEach(function(catItem){
+        self.catList.push( new Cat(catItem) );
+    });*/
+
 
     self.locationList = ko.observableArray([]);
+
+    locations.forEach(function(locationItem){
+        self.locationList.push( new Location(locationItem) );
+    });
     //self.markers = ko.observableArray([]);
 
     // Populate map with markers
 
-    self.maplist = [];
+    //self.maplist = [];
 
     locations.forEach(function(marker) {
-      self.mapList.push(new google.maps.Marker({
+      self.locationList.push(new google.maps.Marker({
           position: position,
           map: map,
           title: title,
