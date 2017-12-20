@@ -2,7 +2,7 @@
 
 // MODEL
 // Array containing location data
-var locations = [{title: 'Barton Springs', location: {lat: 30.2640024, lng: -97.7709723}, selected: false},
+var places = [{title: 'Barton Springs', location: {lat: 30.2640024, lng: -97.7709723}, selected: false},
     {title: 'The Caswell House', location: {lat: 30.2789671, lng: -97.7499303}, selected: false},
     {title: 'El Arroyo', location: {lat: 30.2749658, lng: -97.7667907}, selected: false},
     {title: 'Hippie Hollow Park', location: {lat: 30.413155, lng: -97.884064}, selected: false},
@@ -14,11 +14,10 @@ var locations = [{title: 'Barton Springs', location: {lat: 30.2640024, lng: -97.
     {title: 'Woodlawn (Pease Mansion)', location: {lat: 30.2640901, lng: -97.797237}, selected: false}
 ];
 
-var Location = function (data) {
+var Place = function (data) {
 
     // Initializing title from locations array
-    this.title = ko.observable(data.title);
-    this.location = ko.observable(data.location);
+    //this.title = ko.observable(data.title);
     this.selected = ko.observable(data.selected);
 
 };
@@ -30,35 +29,61 @@ var Location = function (data) {
 
 var ViewPlaces = function() {
   var self = this;
+  var marker;
 
-  self.locationList = ko.observableArray([]);
+    // Style the markers a bit. This will be our listing marker icon.
+  var defaultIcon = makeMarkerIcon('00b3e6');
 
-  locations.forEach(function(locationItem){
-      self.locationList.push( new Location(locationItem) );
+  // Create a "highlighted location" marker color for when the user
+  // mouses over the marker.
+  var highlightedIcon = makeMarkerIcon('eceb97');
+
+  // This function takes in a COLOR, and then creates a new marker
+  // icon of that color. The icon will be 21 px wide by 34 high, have an origin
+    // of 0, 0 and be anchored at 10, 34).
+  function makeMarkerIcon(markerColor) {
+    var markerImage = new google.maps.MarkerImage(
+      'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+      '|40|_|%E2%80%A2',
+      new google.maps.Size(21, 34),
+      new google.maps.Point(0, 0),
+      new google.maps.Point(10, 34),
+      new google.maps.Size(21,34));
+    return markerImage;
+  }
+
+  self.placeList = ko.observableArray([]);
+
+  places.forEach(function(place){
+      self.placeList.push( new Place(place) );
   });
-  //self.markers = ko.observableArray([]);
 
-  // Populate map with markers
+  console.log(self.placeList()); // works
 
-  //self.maplist = [];
+  this.allMarkers = ko.observableArray();  // change name of ko observable array to allMarkers
 
-  locations.forEach(function(marker, locationItem, defaultIcon) {
-    self.locationList.push(new google.maps.Marker({
-        position: {
-              lat: marker.lat,
-              lng: marker.lng
-        },
-        map: map,
-        title: locationItem.title,
-        animation: google.maps.Animation.DROP,
-        icon: defaultIcon,
-        //id: i
-    }));
+var Interests = function (data) {
+
+  self.placeList().forEach(function(place) {
+  // define the marker
+    var marker = new google.maps.Marker({
+      map: map,
+      position: new google.maps.LatLng(place.lat, place.lng),
+      title: place.title,
+      animation: google.maps.Animation.DROP,
+      icon: defaultIcon,
+    });
+
+    place.marker = marker;
+
+    allMarkers.push(marker);
+
   });
 
+}
 
- // Push the marker to our array of markers.
-  markers.push(marker);
+console.log('marker array' + self.allMarkers());
+
     // Create an onclick event to open the large infowindow at each marker.
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
@@ -98,22 +123,11 @@ var ViewPlaces = function() {
             infowindow.setMarker = null;
           });
         }
-      }
-    // self will always map to the VM*/
-
-    // Adding the location into the location array
-    location.forEach(function(locationItem){
-        self.locationList.push( new Location(locationItem) );
-    });
+      }*/
 
     this.applyFilter = function (locationItem) {
         console.log ('this is this place name + ' );
     };
-
-   /* this.incrementCounter = function() {
-        // this.clickCount is a ko observable
-        this.clickCount(this.clickCount() + 1);
-    };*/
 
 };
 
