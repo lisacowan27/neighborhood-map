@@ -2,16 +2,17 @@
 
 // MODEL
 // Array containing location data
-var places = [{title: 'Barton Springs', location: {lat: 30.2640024, lng: -97.7709723}, selected: false},
-    {title: 'The Caswell House', location: {lat: 30.2789671, lng: -97.7499303}, selected: false},
-    {title: 'El Arroyo', location: {lat: 30.2749658, lng: -97.7667907}, selected: false},
-    {title: 'Hippie Hollow Park', location: {lat: 30.413155, lng: -97.884064}, selected: false},
-    {title: 'McKinney Falls State Park', location: {lat: 30.1803582, lng: -97.7239284}, selected: false},
-    {title: 'Mt Bonnell', location: {lat: 30.3207599, lng: -97.7908498}, selected: false},
-    {title: "St. Edward\'s Park", location: {lat: 30.4054917, lng: -97.7934439}, selected: false},
-    {title: 'UT Tower', location: {lat: 30.2862394, lng: -97.7445772}, selected: false},
-    {title: 'West Sixth Street Bridge', location: {lat: 30.2730245, lng: -97.7601438}, selected: false},
-    {title: 'Woodlawn (Pease Mansion)', location: {lat: 30.2640901, lng: -97.797237}, selected: false}
+var places = [
+  {title: 'Big Spring', location: {lat: 46.0041576, lng: -86.3906836}, selected: false},
+  {title: 'Bishop Baraga Shrine', location: {lat: 46.749297, lng: -88.476654}, selected: false},
+  {title: "Canyon Falls", location: {lat: 46.493566, lng: -88.8656547}, selected: false},
+  {title: 'Copper Harbor, MI', location: {lat: 47.4694752, lng: -87.9133548}, selected: false},
+  {title: 'Manistique Lighthouse', location: {lat: 45.9447901, lng: -86.2497676}, selected: false},
+  {title: 'Grand Marais, MI', location: {lat: 46.6717881, lng: -85.9928782}, selected: false},
+  {title: 'Little Presque Isle', location: {lat: 46.6388169, lng: -87.4677809}, selected: false},
+  {title: 'Mackinac Island', location: {lat: 45.8657336, lng: -84.6444116}, selected: false},
+  {title: 'Steuben, MI', location: {lat: 46.188294, lng: -86.4655739}, selected: false},
+  {title: 'Tahquamenon Falls', location: {lat: 46.6053783, lng: -85.204166}, selected: false}
 ];
 
 var Place = function (data) {
