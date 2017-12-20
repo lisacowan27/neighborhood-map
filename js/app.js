@@ -74,31 +74,38 @@ var Interests = function (data) {
       icon: defaultIcon,
     });
 
+  });
+
     place.marker = marker;
 
     allMarkers.push(marker);
-
-  });
 
 }
 
 console.log('marker array' + self.allMarkers());
 
     // Create an onclick event to open the large infowindow at each marker.
-    marker.addListener('click', function() {
+
+    /*marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
-    });
+    });*/
     // Two event listeners - one for mouseover, one for mouseout,
     // to change the colors back and forth.
-    marker.addListener('mouseover', function() {
-      this.setIcon(highlightedIcon);
+    self.allMarkers().forEach(function(marker) {
+      marker.addListener('mouseover', function() {
+        this.setIcon(highlightedIcon);
+      });
     });
-    marker.addListener('mouseout', function() {
-      this.setIcon(defaultIcon);
-    });
-    bounds.extend(markers[i].position);
 
-    map.fitBounds(bounds);
+    self.allMarkers().forEach(function(marker) {
+      marker.addListener('mouseout', function() {
+        this.setIcon(defaultIcon);
+      });
+    });
+
+    //bounds.extend(markers[i].position);
+
+    //map.fitBounds(bounds);
 
 
   /*     // Listen for the event fired when the user selects a prediction and clicks
@@ -125,7 +132,7 @@ console.log('marker array' + self.allMarkers());
         }
       }*/
 
-    this.applyFilter = function (locationItem) {
+    this.applyFilter = function (place) {
         console.log ('this is this place name + ' );
     };
 
