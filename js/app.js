@@ -78,14 +78,6 @@
   var ViewPlaces = function() {
     var self = this;
 
-    /*this.catList = ko.observableArray([]);
-
-    // Adding the cat data into the cat array
-    initialCats.forEach(function(catItem){
-        self.catList.push( new Cat(catItem) );
-    });*/
-
-
     self.locationList = ko.observableArray([]);
 
     locations.forEach(function(locationItem){
@@ -99,7 +91,10 @@
 
     locations.forEach(function(marker) {
       self.locationList.push(new google.maps.Marker({
-          position: position,
+          position: {
+                lat: marker.lat,
+                lng: marker.lng
+          },
           map: map,
           title: title,
           animation: google.maps.Animation.DROP,
