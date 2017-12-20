@@ -29,7 +29,6 @@ var Place = function (data) {
 
 var ViewPlaces = function() {
   var self = this;
-  var marker;
 
     // Style the markers a bit. This will be our listing marker icon.
   var defaultIcon = makeMarkerIcon('00b3e6');
@@ -66,7 +65,7 @@ var Interests = function (data) {
 
   self.placeList().forEach(function(place) {
   // define the marker
-    var marker = new google.maps.Marker({
+    self.marker = new google.maps.Marker({
       map: map,
       position: new google.maps.LatLng(place.lat, place.lng),
       title: place.title,
@@ -74,11 +73,21 @@ var Interests = function (data) {
       icon: defaultIcon,
     });
 
-  });
-
     place.marker = marker;
 
+    marker.addListener('click', function() {
+        console.log('clicked');
+      });
+
     allMarkers.push(marker);
+
+  });
+
+
+
+
+
+
 
 }
 
