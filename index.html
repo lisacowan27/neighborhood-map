@@ -15,15 +15,18 @@
             <h1 class="h1">The Upper Pennisula of Michigan</h1>
             <div>
               <p class="text">To learn more about an area of interest, start to type the name, or click on one of the icons.</p>
-              <div>
-                <input class="filter" type="text">
-              </div>
-              <ul data-bind="foreach: placeList" class="location-list">
+              <!--<ul data-bind="foreach: placeList" class="location-list">
                 <li data-bind="text: title"></li>
-              </ul>
+              </ul>-->
               <div class="input-group">
-                  <input id="filterInputText" type="text" class="filter form-control" placeholder="filter by name..." data-bind="value: placeList, valueUpdate: 'afterkeydown', event: {keyup: applyFilter}"><i class="fa fa-filter fa-2" aria-hidden="true"></i>
+                  <input id="filter-text-box" class="text-input-box" type="text" placeholder="Big Spring" data-bind="textInput: filter, valueUpdate: 'keydown'"><i class="fa fa-filter fa-2" aria-hidden="true"></i>
               </div>
+                <ul id="test" data-bind="foreach: filteredPlaces">
+                  <li id="places" data-bind="text: title"></li>
+                  <!--<li id="places" data-bind="text: title, click: ViewModel.show"></li>-->
+                </ul>
+
+
             </div>
             <!--<hr>
             <div>

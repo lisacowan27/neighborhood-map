@@ -132,6 +132,32 @@ var ViewPlaces = function() {
 
     //map.fitBounds(bounds);
 
+    this.filter = ko.observable('');
+
+
+
+    this.filteredPlaces = ko.computed(function() {
+    var filter = self.filter().toLowerCase();
+    if (!filter) {
+      self.placeList().forEach(function(data) {
+                if (data.marker) {
+                    data.marker.setVisible(true);
+                }
+            });
+            return self.placeList();
+    } else {
+        return ko.utils.arrayFilter(self.placeList(), function(data) {
+            if (data.title.toLowerCase().indexOf(filter) > -1) {
+                data.marker.setVisible(true);
+                return true;
+            } else {
+                data.marker.setVisible(false);
+                return false;
+            }
+        });
+      }
+    }, self);
+
 
   /*     // Listen for the event fired when the user selects a prediction and clicks
         // "go" more details for that place.
