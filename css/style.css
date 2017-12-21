@@ -19,6 +19,15 @@ body, .text {
     right: 0px;
 }
 
+#map2 {
+
+    bottom:0px;
+    height: 100%;
+    left: 0px;
+    position: absolute;
+    right: 0px;
+}
+
 input {
     font-size: 16px;
 }
