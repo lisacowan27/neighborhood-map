@@ -82,8 +82,8 @@ var ViewPlaces = function() {
         map: map,
         position: data.LatLng,
         title: data.title,
-        //animation: google.maps.Animation.DROP,
-        //icon: defaultIcon,
+        animation: google.maps.Animation.DROP,
+        icon: defaultIcon,
       });
 
       //self.marker = marker;
@@ -91,30 +91,6 @@ var ViewPlaces = function() {
       console.log('allMarkers here ' + allMarkers);
 
   });
-
-
-    /*self.placeList().forEach(function(data, marker) {
-    var title = data.title;
-    console.log('this is the title ' + title);
-    var position = data.LatLng;
-    console.log('this is the location ' + position);
-        marker = new google.maps.Marker({
-        map: map,
-        position: position,
-        title: data.title,
-        animation: google.maps.Animation.DROP,
-        icon: defaultIcon,
-      });*/
-
-      //place.marker = marker;
-
-      /*marker.addListener('click', function() {
-          console.log('clicked');
-        });
-
-      //allMarkers.push(marker);
-
-    });*/
 
     console.log('marker array' + allMarkers);
 
