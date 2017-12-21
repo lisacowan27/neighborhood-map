@@ -86,6 +86,19 @@ var ViewPlaces = function() {
         icon: defaultIcon,
       });
 
+    // Rollovers for markers
+    self.marker.addListener('mouseover', function() {
+        this.setIcon(highlightedIcon);
+    });
+
+    self.marker.addListener('mouseout', function() {
+      this.setIcon(defaultIcon);
+    });
+
+    self.marker.addListener('click', (function() {
+      console.log('click');//adds content to infowindow
+    }));
+
       //self.marker = marker;
       allMarkers.push(self.marker);
       console.log('allMarkers here ' + allMarkers);
