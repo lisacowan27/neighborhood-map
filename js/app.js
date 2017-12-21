@@ -3,7 +3,7 @@
 "use strict";
 
 // GLOBAL VARIABLES
-var map, infowindow, marker;
+var map, infowindow;
 
 
 // MODEL
@@ -27,7 +27,7 @@ var Place = function (data) {
     this.title = data.title;
     this.LatLng = data.LatLng;
     this.selected = ko.observable(data.selected);
-    this.marker = marker;
+    this.marker = data.marker;
 
 
 
@@ -40,6 +40,7 @@ var Place = function (data) {
 
 var ViewPlaces = function() {
   var self = this;
+
 
     // Style the markers a bit. This will be our listing marker icon.
   var defaultIcon = makeMarkerIcon('00b3e6');
@@ -71,39 +72,51 @@ var ViewPlaces = function() {
 
   console.log(self.placeList()); // works
 
-  this.allMarkers = ko.observableArray();  // change name of ko observable array to allMarkers
+  var marker, allMarkers = [];
 
 
   self.placeList().forEach(function(data) {
-    console.log(data.title); //works
+    console.log('info in marker creation '+ data.title + ', ' + data.LatLng); //works
     console.log(data.LatLng);  //works
+    self.marker = new google.maps.Marker({
+        map: map,
+        position: data.LatLng,
+        title: data.title,
+        //animation: google.maps.Animation.DROP,
+        //icon: defaultIcon,
+      });
+
+      //self.marker = marker;
+      allMarkers.push(self.marker);
+      console.log('allMarkers here ' + allMarkers);
+
   });
 
 
-    self.placeList().forEach(function(data, marker) {
+    /*self.placeList().forEach(function(data, marker) {
     var title = data.title;
     console.log('this is the title ' + title);
     var position = data.LatLng;
     console.log('this is the location ' + position);
-      self.marker = new google.maps.Marker({
+        marker = new google.maps.Marker({
         map: map,
-        position: data.LatLng,
+        position: position,
         title: data.title,
         animation: google.maps.Animation.DROP,
         icon: defaultIcon,
-      });
+      });*/
 
       //place.marker = marker;
 
       /*marker.addListener('click', function() {
           console.log('clicked');
-        });*/
+        });
 
       //allMarkers.push(marker);
 
-    });
+    });*/
 
-    console.log('marker array' + self.allMarkers());
+    console.log('marker array' + allMarkers);
 
     // Create an onclick event to open the large infowindow at each marker.
 
@@ -112,17 +125,17 @@ var ViewPlaces = function() {
     });*/
     // Two event listeners - one for mouseover, one for mouseout,
     // to change the colors back and forth.
-    self.allMarkers().forEach(function(marker) {
+    /*self.allMarkers().forEach(function(marker) {
       marker.addListener('mouseover', function() {
         this.setIcon(highlightedIcon);
       });
-    });
+    });*/
 
-    self.allMarkers().forEach(function(marker) {
+    /*self.allMarkers().forEach(function(marker) {
       marker.addListener('mouseout', function() {
         this.setIcon(defaultIcon);
       });
-    });
+    });*/
 
 
 
@@ -159,7 +172,7 @@ var ViewPlaces = function() {
         console.log ('this is this place name + ' );
     };
 
-};
+}; // end VM
 
 
 //Function to load map and start up app
