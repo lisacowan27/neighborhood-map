@@ -19,7 +19,7 @@
                 <input class="filter" type="text">
               </div>
               <ul data-bind="foreach: placeList" class="location-list">
-                <li data-bind="text: $parent.title"></li>
+                <li data-bind="text: title"></li>
               </ul>
               <div class="input-group">
                   <input id="filterInputText" type="text" class="filter form-control" placeholder="filter by name..." data-bind="value: placeList, valueUpdate: 'afterkeydown', event: {keyup: applyFilter}"><i class="fa fa-filter fa-2" aria-hidden="true"></i>

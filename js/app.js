@@ -1,5 +1,11 @@
   /* Knockout here -- used to handle the list, filter and any other information that is subject to changing state -- the Model stuff */
 
+"use strict";
+
+// GLOBAL VARIABLES
+var map, infowindow, marker;
+
+
 // MODEL
 // Array containing location data
 var places = [
@@ -18,8 +24,10 @@ var places = [
 var Place = function (data) {
 
     // Initializing title from locations array
-    //this.title = ko.observable(data.title);
+    this.title = data.title;
+    this.location = data.location;
     this.selected = ko.observable(data.selected);
+
 
 };
 
@@ -62,37 +70,31 @@ var ViewPlaces = function() {
 
   this.allMarkers = ko.observableArray();  // change name of ko observable array to allMarkers
 
-var Interests = function (data) {
+  var Interests = function (data) {
 
-  self.placeList().forEach(function(place) {
-  // define the marker
-    self.marker = new google.maps.Marker({
-      map: map,
-      position: new google.maps.LatLng(place.lat, place.lng),
-      title: place.title,
-      animation: google.maps.Animation.DROP,
-      icon: defaultIcon,
-    });
-
-    place.marker = marker;
-
-    marker.addListener('click', function() {
-        console.log('clicked');
+    self.placeList().forEach(function(place) {
+    // define the marker
+      self.marker = new google.maps.Marker({
+        map: map,
+        position: new google.maps.LatLng(place.lat, place.lng),
+        title: place.title,
+        animation: google.maps.Animation.DROP,
+        icon: defaultIcon,
       });
 
-    allMarkers.push(marker);
+      place.marker = marker;
 
-  });
+      /*marker.addListener('click', function() {
+          console.log('clicked');
+        });*/
 
+      allMarkers.push(marker);
 
+    });
 
+  }; // /*interests
 
-
-
-
-}
-
-console.log('marker array' + self.allMarkers());
+    console.log('marker array' + self.allMarkers());
 
     // Create an onclick event to open the large infowindow at each marker.
 
@@ -112,6 +114,8 @@ console.log('marker array' + self.allMarkers());
         this.setIcon(defaultIcon);
       });
     });
+
+
 
     //bounds.extend(markers[i].position);
 
@@ -155,8 +159,6 @@ console.log('marker array' + self.allMarkers());
 /* Maps API here -- used for creating markers, tracking click events on markers, making the map and refreshing the map. -- API stuff */
 
 
-var map;
-
 //var placeMarkers = [];
 
 function initMap() {
@@ -164,7 +166,7 @@ function initMap() {
 
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 30.267153, lng: -97.7430608},
+      center: {lat: 46.188294, lng: -86.4655739},
       //styles: styles,
       mapTypeControl: false
     });
