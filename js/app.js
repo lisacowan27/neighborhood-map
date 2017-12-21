@@ -9,24 +9,26 @@ var map, infowindow, marker;
 // MODEL
 // Array containing location data
 var places = [
-  {title: 'Big Spring', location: {lat: 46.0041576, lng: -86.3906836}, selected: false},
-  {title: 'Bishop Baraga Shrine', location: {lat: 46.749297, lng: -88.476654}, selected: false},
-  {title: "Canyon Falls", location: {lat: 46.493566, lng: -88.8656547}, selected: false},
-  {title: 'Copper Harbor, MI', location: {lat: 47.4694752, lng: -87.9133548}, selected: false},
-  {title: 'Manistique Lighthouse', location: {lat: 45.9447901, lng: -86.2497676}, selected: false},
-  {title: 'Grand Marais, MI', location: {lat: 46.6717881, lng: -85.9928782}, selected: false},
-  {title: 'Little Presque Isle', location: {lat: 46.6388169, lng: -87.4677809}, selected: false},
-  {title: 'Mackinac Island', location: {lat: 45.8657336, lng: -84.6444116}, selected: false},
-  {title: 'Steuben, MI', location: {lat: 46.188294, lng: -86.4655739}, selected: false},
-  {title: 'Tahquamenon Falls', location: {lat: 46.6053783, lng: -85.204166}, selected: false}
+  {title: 'Big Spring', LatLng: {lat: 46.0041576, lng: -86.3906836}, selected: false},
+  {title: 'Bishop Baraga Shrine', LatLng: {lat: 46.749297, lng: -88.476654}, selected: false},
+  {title: "Canyon Falls", LatLng: {lat: 46.493566, lng: -88.8656547}, selected: false},
+  {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, selected: false},
+  {title: 'Manistique Lighthouse', LatLng: {lat: 45.9447901, lng: -86.2497676}, selected: false},
+  {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, selected: false},
+  {title: 'Little Presque Isle', LatLng: {lat: 46.6388169, lng: -87.4677809}, selected: false},
+  {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, selected: false},
+  {title: 'Steuben, MI', LatLng: {lat: 46.188294, lng: -86.4655739}, selected: false},
+  {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, selected: false}
 ];
 
 var Place = function (data) {
 
-    // Initializing title from locations array
+    // Initializing data from places array
     this.title = data.title;
-    this.location = data.location;
+    this.LatLng = data.LatLng;
     this.selected = ko.observable(data.selected);
+    this.marker = marker;
+
 
 
 };
@@ -64,35 +66,42 @@ var ViewPlaces = function() {
 
   places.forEach(function(place){
       self.placeList.push( new Place(place) );
+
   });
 
   console.log(self.placeList()); // works
 
   this.allMarkers = ko.observableArray();  // change name of ko observable array to allMarkers
 
-  var Interests = function (data) {
 
-    self.placeList().forEach(function(place) {
-    // define the marker
+  self.placeList().forEach(function(data) {
+    console.log(data.title); //works
+    console.log(data.LatLng);  //works
+  });
+
+
+    self.placeList().forEach(function(data, marker) {
+    var title = data.title;
+    console.log('this is the title ' + title);
+    var position = data.LatLng;
+    console.log('this is the location ' + position);
       self.marker = new google.maps.Marker({
         map: map,
-        position: new google.maps.LatLng(place.lat, place.lng),
-        title: place.title,
+        position: data.LatLng,
+        title: data.title,
         animation: google.maps.Animation.DROP,
         icon: defaultIcon,
       });
 
-      place.marker = marker;
+      //place.marker = marker;
 
       /*marker.addListener('click', function() {
           console.log('clicked');
         });*/
 
-      allMarkers.push(marker);
+      //allMarkers.push(marker);
 
     });
-
-  }; // /*interests
 
     console.log('marker array' + self.allMarkers());
 
