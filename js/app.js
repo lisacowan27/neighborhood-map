@@ -70,7 +70,7 @@ var ViewPlaces = function() {
 
   });
 
-  var marker, allMarkers = [];
+  var marker, allMarkers = [], bounds;
 
     self.placeList().forEach(function(data) {
     //console.log('info in marker creation '+ data.title + ', ' + data.LatLng); //works
@@ -107,6 +107,17 @@ var ViewPlaces = function() {
 
     console.log(self.placeList()); // works
 
+  // Loop through the markers array and display them all.
+  bounds = new google.maps.LatLngBounds();
+
+  // Extend the boundaries of the map for each marker and display the marker
+  for (var i = 0; i < allMarkers.length; i++) {
+    allMarkers[i].setMap(map);
+    bounds.extend(allMarkers[i].position);
+  }
+
+  map.fitBounds(bounds);
+
     // Create an onclick event to open the large infowindow at each marker.
 
     /*marker.addListener('click', function() {
@@ -126,11 +137,9 @@ var ViewPlaces = function() {
       });
     });*/
 
-    //bounds.extend(markers[i].position);
+    //console.log('marker array' + allMarkers);
 
-    //map.fitBounds(bounds);
-
-    console.log('marker array' + allMarkers);
+    // The following creates the filter function for the place names and map markers
 
     this.filter = ko.observable('');
 
@@ -204,7 +213,7 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 46.188294, lng: -86.4655739},
       //styles: styles,
-      zoom: 7
+      zoom: 10
     });
 
     var largeInfowindow = new google.maps.InfoWindow();
