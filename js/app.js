@@ -27,7 +27,7 @@ var Place = function (data) {
     this.title = data.title;
     this.LatLng = data.LatLng;
     this.selected = ko.observable(data.selected);
-    this.marker = data.marker;
+    //this.marker = data.marker;
 
 
 
@@ -70,15 +70,15 @@ var ViewPlaces = function() {
 
   });
 
-  console.log(self.placeList()); // works
-
   var marker, allMarkers = [];
 
+    self.placeList().forEach(function(data) {
+    //console.log('info in marker creation '+ data.title + ', ' + data.LatLng); //works
+    //console.log(data.LatLng);  //works
 
-  self.placeList().forEach(function(data) {
-    console.log('info in marker creation '+ data.title + ', ' + data.LatLng); //works
-    console.log(data.LatLng);  //works
-    self.marker = new google.maps.Marker({
+    data.marker = marker;
+
+    data.marker = new google.maps.Marker({
         map: map,
         position: data.LatLng,
         title: data.title,
@@ -87,25 +87,25 @@ var ViewPlaces = function() {
       });
 
     // Rollovers for markers
-    self.marker.addListener('mouseover', function() {
+    data.marker.addListener('mouseover', function() {
         this.setIcon(highlightedIcon);
     });
 
-    self.marker.addListener('mouseout', function() {
+    data.marker.addListener('mouseout', function() {
       this.setIcon(defaultIcon);
     });
 
-    self.marker.addListener('click', (function() {
+    data.marker.addListener('click', (function() {
       console.log('click');//adds content to infowindow
     }));
 
       //self.marker = marker;
-      allMarkers.push(self.marker);
+      allMarkers.push(data.marker);
       console.log('allMarkers here ' + allMarkers);
 
   });
 
-    console.log('marker array' + allMarkers);
+    console.log(self.placeList()); // works
 
     // Create an onclick event to open the large infowindow at each marker.
 
@@ -126,20 +126,19 @@ var ViewPlaces = function() {
       });
     });*/
 
-
-
     //bounds.extend(markers[i].position);
 
     //map.fitBounds(bounds);
 
+    console.log('marker array' + allMarkers);
+
     this.filter = ko.observable('');
-
-
 
     this.filteredPlaces = ko.computed(function() {
     var filter = self.filter().toLowerCase();
     if (!filter) {
       self.placeList().forEach(function(data) {
+        console.log('data marker ' + data.marker);
                 if (data.marker) {
                     data.marker.setVisible(true);
                 }
