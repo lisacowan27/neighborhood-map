@@ -97,6 +97,17 @@ var ViewPlaces = function() {
       this.setIcon(defaultIcon);
     });
 
+    // Loop through the markers array and display them all.
+    bounds = new google.maps.LatLngBounds();
+
+    // Extend the boundaries of the map for each marker and display the marker
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+      bounds.extend(markers[i].position);
+    }
+
+    map.fitBounds(bounds);
+
     /*data.marker.addListener('click', (function(data, marker) {
       console.log('click');//adds content to infowindow
       populateInfoWindow(self, largeInfowindow);
@@ -134,18 +145,6 @@ var ViewPlaces = function() {
 
   addInfoWindowToMarkers();
 
-
-
-  // Loop through the markers array and display them all.
-  bounds = new google.maps.LatLngBounds();
-
-  // Extend the boundaries of the map for each marker and display the marker
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(map);
-    bounds.extend(markers[i].position);
-  }
-
-  map.fitBounds(bounds);
 
   // Open the large infowindow at each marker.
   function populateInfoWindow(marker, infowindow) {
