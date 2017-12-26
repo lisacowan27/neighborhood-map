@@ -3,7 +3,7 @@
 "use strict";
 
 // GLOBAL VARIABLES
-var map, infowindow;
+var map;
 
 
 // MODEL
@@ -41,8 +41,12 @@ var Place = function (data) {
 var ViewPlaces = function() {
   var self = this;
 
+  var marker, markers = [], bounds;
 
-    // Style the markers a bit. This will be our listing marker icon.
+  var largeInfowindow = new google.maps.InfoWindow();
+
+
+  // Style the markers a bit. This will be our listing marker icon.
   var defaultIcon = makeMarkerIcon('00b3e6');
 
   // Create a "highlighted location" marker color for when the user
@@ -70,59 +74,83 @@ var ViewPlaces = function() {
 
   });
 
-  var marker, allMarkers = [], bounds;
-
     self.placeList().forEach(function(data) {
-    //console.log('info in marker creation '+ data.title + ', ' + data.LatLng); //works
-    //console.log(data.LatLng);  //works
-
-    data.marker = marker;
-
-    data.marker = new google.maps.Marker({
+      data.marker = new google.maps.Marker({
         map: map,
         position: data.LatLng,
         title: data.title,
         animation: google.maps.Animation.DROP,
-        icon: defaultIcon,
+        icon: defaultIcon
       });
 
+
+
+    markers.push(data.marker);
+    console.log('markers here ' + markers);
+
+    marker = data.marker;
+
     // Rollovers for markers
-    data.marker.addListener('mouseover', function() {
+    marker.addListener('mouseover', function() {
         this.setIcon(highlightedIcon);
     });
 
-    data.marker.addListener('mouseout', function() {
+    marker.addListener('mouseout', function() {
       this.setIcon(defaultIcon);
     });
 
-    data.marker.addListener('click', (function() {
+    /*data.marker.addListener('click', (function(data, marker) {
       console.log('click');//adds content to infowindow
-    }));
-
-      //self.marker = marker;
-      allMarkers.push(data.marker);
-      console.log('allMarkers here ' + allMarkers);
+      populateInfoWindow(self, largeInfowindow);
+    }));*/
 
   });
 
-    console.log(self.placeList()); // works
+  function addInfoWindowToMarkers(markers, map) {
+      var infowindow = new google.maps.InfoWindow({
+        content: 'information'
+      });
+
+      for (var i = 0; i < markers.length; i++) {
+        var marker = markers[i];
+        marker.addListener('click', function() {
+          console.log('this is ' + this);
+          console.log('click');
+          populateInfoWindow(this, largeInfowindow);
+        });
+      }
+    }
+
+  addInfoWindowToMarkers();
+
+  console.log(self.placeList()); // works
 
   // Loop through the markers array and display them all.
   bounds = new google.maps.LatLngBounds();
 
   // Extend the boundaries of the map for each marker and display the marker
-  for (var i = 0; i < allMarkers.length; i++) {
-    allMarkers[i].setMap(map);
-    bounds.extend(allMarkers[i].position);
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+    bounds.extend(markers[i].position);
   }
 
   map.fitBounds(bounds);
 
-    // Create an onclick event to open the large infowindow at each marker.
+  // Open the large infowindow at each marker.
+  function populateInfoWindow(marker, infowindow) {
+      // Check to make sure the infowindow is not already opened on this marker.
+      if (infowindow.marker != marker) {
+        infowindow.marker = marker;
+        infowindow.setContent('<div>' + marker.title + '</div>');
+        infowindow.open(map, marker);
+        // Make sure the marker property is cleared if the infowindow is closed.
+        infowindow.addListener('closeclick',function(){
+          infowindow.setMarker = null;
+        });
+      }
+    };
 
-    /*marker.addListener('click', function() {
-      populateInfoWindow(this, largeInfowindow);
-    });*/
+
     // Two event listeners - one for mouseover, one for mouseout,
     // to change the colors back and forth.
     /*self.allMarkers().forEach(function(marker) {
@@ -216,7 +244,6 @@ function initMap() {
       zoom: 10
     });
 
-    var largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
 
     // Style the markers a bit. This will be our listing marker icon.
