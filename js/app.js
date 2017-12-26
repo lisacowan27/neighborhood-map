@@ -28,9 +28,6 @@ var Place = function (data) {
     this.LatLng = data.LatLng;
     this.selected = ko.observable(data.selected);
     //this.marker = data.marker;
-
-
-
 };
 
 //VIEW MODEL
@@ -74,7 +71,7 @@ var ViewPlaces = function() {
 
   });
 
-    self.placeList().forEach(function(data) {
+  self.placeList().forEach(function(data) {
       data.marker = new google.maps.Marker({
         map: map,
         position: data.LatLng,
@@ -83,6 +80,7 @@ var ViewPlaces = function() {
         icon: defaultIcon
       });
 
+    console.log('placeList after markers ' + places);
 
 
     markers.push(data.marker);
@@ -106,24 +104,37 @@ var ViewPlaces = function() {
 
   });
 
+  console.log(self.placeList()); // works
+
   function addInfoWindowToMarkers(markers, map) {
       var infowindow = new google.maps.InfoWindow({
         content: 'information'
       });
 
-      for (var i = 0; i < markers.length; i++) {
+      /*for (var i = 0; i < markers.length; i++) {
         var marker = markers[i];
         marker.addListener('click', function() {
           console.log('this is ' + this);
           console.log('click');
           populateInfoWindow(this, largeInfowindow);
         });
-      }
-    }
+      }*/
+      self.placeList().forEach(function(data) {
+        var marker = data.marker;
+        marker.addListener('click', function() {
+          console.log('this is ' + this);
+          console.log('click');
+          populateInfoWindow(this, largeInfowindow);
+
+      });
+
+    });
+
+  }
 
   addInfoWindowToMarkers();
 
-  console.log(self.placeList()); // works
+
 
   // Loop through the markers array and display them all.
   bounds = new google.maps.LatLngBounds();
@@ -148,7 +159,7 @@ var ViewPlaces = function() {
           infowindow.setMarker = null;
         });
       }
-    };
+    }
 
 
     // Two event listeners - one for mouseover, one for mouseout,
