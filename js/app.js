@@ -68,9 +68,9 @@ var ViewPlaces = function() {
 
   places.forEach(function(place){
       self.placeList.push( new Place(place) );
-
   });
 
+  // Add markers to the map
   self.placeList().forEach(function(data) {
       data.marker = new google.maps.Marker({
         map: map,
@@ -82,7 +82,7 @@ var ViewPlaces = function() {
 
     console.log('placeList after markers ' + places);
 
-
+    // Add the markers created in the previous function to an array
     markers.push(data.marker);
     console.log('markers here ' + markers);
 
@@ -97,7 +97,7 @@ var ViewPlaces = function() {
       this.setIcon(defaultIcon);
     });
 
-    // Loop through the markers array and display them all.
+    // Loop through the markers array and display them all within the boundaries of the map
     bounds = new google.maps.LatLngBounds();
 
     // Extend the boundaries of the map for each marker and display the marker
@@ -108,51 +108,37 @@ var ViewPlaces = function() {
 
     map.fitBounds(bounds);
 
-    /*data.marker.addListener('click', (function(data, marker) {
-      console.log('click');//adds content to infowindow
-      populateInfoWindow(self, largeInfowindow);
-    }));*/
-
   });
 
   console.log(self.placeList()); // works
 
+  // Create Google Maps InfoWindows
   function addInfoWindowToMarkers(markers, map) {
       var infowindow = new google.maps.InfoWindow({
         content: 'information'
       });
 
-      /*for (var i = 0; i < markers.length; i++) {
-        var marker = markers[i];
-        marker.addListener('click', function() {
-          console.log('this is ' + this);
-          console.log('click');
-          populateInfoWindow(this, largeInfowindow);
-        });
-      }*/
+      // Add and InfoWindow for each marker on the map
       self.placeList().forEach(function(data) {
         var marker = data.marker;
         marker.addListener('click', function() {
-          console.log('this is ' + this);
-          console.log('click');
+          //console.log('this is ' + this);
+          //console.log('click');
           populateInfoWindow(this, largeInfowindow);
-
       });
-
     });
-
   }
 
+  // Call the function that creates the InfoWindows
   addInfoWindowToMarkers();
-
 
   // Open the large infowindow at each marker.
   function populateInfoWindow(marker, infowindow) {
       // Check to make sure the infowindow is not already opened on this marker.
       if (infowindow.marker != marker) {
-        infowindow.marker = marker;
-        infowindow.setContent('<div>' + marker.title + '</div>');
-        infowindow.open(map, marker);
+          infowindow.marker = marker;
+          infowindow.setContent('<div>' + marker.title + '</div>');
+          infowindow.open(map, marker);
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick',function(){
           infowindow.setMarker = null;
