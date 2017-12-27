@@ -80,11 +80,11 @@ var ViewPlaces = function() {
         icon: defaultIcon
       });
 
-    console.log('placeList after markers ' + places);
+    //console.log('placeList after markers ' + places);
 
     // Add the markers created in the previous function to an array
     markers.push(data.marker);
-    console.log('markers here ' + markers);
+    //console.log('markers here ' + markers);
 
     marker = data.marker;
 
@@ -135,8 +135,13 @@ var ViewPlaces = function() {
   // Open the large infowindow at each marker.
   function populateInfoWindow(marker, infowindow) {
 
-    var articleUrl;
-    var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wikiCallback';
+    var articleUrl, articleList, articleStr;
+
+    var replacedTitle = marker.title;
+
+    replacedTitle = encodeURIComponent(replacedTitle.trim())
+
+    var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
     console.log('marker url ' + wikiURL);
     //timeout for wikipedia page if it takes more than 8 seconds
         var wikiTimeout = setTimeout(function () {
@@ -146,25 +151,35 @@ var ViewPlaces = function() {
          //ajax requst
         $.ajax({
             url: wikiURL,
-            dataType: "jsonp"
-            //jsnop datatype
+            dataType: "jsonp",
+
+            //jsonp datatype
         }).done(function(response) {
+            var articleList = response[0];
+            console.log('articleList ' + articleList);
+            for (var i = 0; i < articleList.length; i++) {
+              articleStr = articleList[i];
+              var articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
+              console.log('articleStr ' + articleStr );
+              //console.log(url);
+              if (infowindow.marker != marker) {
+                    infowindow.marker = marker;
+                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">' + articleUrl + '</a>');
+                    infowindow.open(map, marker);
+                  // Make sure the marker property is cleared if the infowindow is closed.
+                  infowindow.addListener('closeclick',function(){
+                    infowindow.setMarker = null;
+                  });
+                }
+            }
             //timeout is cleared if wikipedia link is loaded successfully
             clearTimeout(wikiTimeout);
             //response from wikipedia api
-            articleUrl = response[3][0];
+            //articleUrl = response[1];
         });
 
       // Check to make sure the infowindow is not already opened on this marker.
-      if (infowindow.marker != marker) {
-          infowindow.marker = marker;
-          infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">' + articleUrl + '</a>');
-          infowindow.open(map, marker);
-        // Make sure the marker property is cleared if the infowindow is closed.
-        infowindow.addListener('closeclick',function(){
-          infowindow.setMarker = null;
-        });
-      }
+
     }
 
 
@@ -192,7 +207,7 @@ var ViewPlaces = function() {
     var filter = self.filter().toLowerCase();
     if (!filter) {
       self.placeList().forEach(function(data) {
-        console.log('data marker ' + data.marker);
+        //console.log('data marker ' + data.marker);
                 if (data.marker) {
                     data.marker.setVisible(true);
                 }
