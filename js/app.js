@@ -135,17 +135,19 @@ var ViewPlaces = function() {
   // Open the large infowindow at each marker.
   function populateInfoWindow(marker, infowindow) {
 
-    var articleUrl, articleList, articleStr;
+    // Declare variables for this function
+    var articleUrl, articleList;
 
+    // Encode marker.title for URL
     var replacedTitle = marker.title;
+    replacedTitle = encodeURIComponent(replacedTitle.trim());
 
-    replacedTitle = encodeURIComponent(replacedTitle.trim())
-
+    // Query for Wikipedia
     var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
     console.log('marker url ' + wikiURL);
     //timeout for wikipedia page if it takes more than 8 seconds
         var wikiTimeout = setTimeout(function () {
-            alert("failed to load wikipedia page");
+            alert("Unable to load Wikipedia at this time.");
         }, 8000);
 
          //ajax requst
@@ -158,14 +160,14 @@ var ViewPlaces = function() {
             var articleList = response[0];
             console.log('articleList ' + articleList);
             for (var i = 0; i < articleList.length; i++) {
-              articleStr = articleList[i];
               var articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
-              console.log('articleStr ' + articleStr );
-              //console.log(url);
+
+              // Check to make sure the infowindow is not already opened on this marker.
               if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">' + articleUrl + '</a>');
+                    infowindow.setContent('<p>' + marker.title + '</p><br><a href ="' + articleUrl + '">Learn more</a>');
                     infowindow.open(map, marker);
+
                   // Make sure the marker property is cleared if the infowindow is closed.
                   infowindow.addListener('closeclick',function(){
                     infowindow.setMarker = null;
@@ -174,11 +176,9 @@ var ViewPlaces = function() {
             }
             //timeout is cleared if wikipedia link is loaded successfully
             clearTimeout(wikiTimeout);
-            //response from wikipedia api
-            //articleUrl = response[1];
         });
 
-      // Check to make sure the infowindow is not already opened on this marker.
+
 
     }
 
@@ -227,33 +227,6 @@ var ViewPlaces = function() {
     }, self);
 
 
-  /*     // Listen for the event fired when the user selects a prediction and clicks
-        // "go" more details for that place.
-        //document.getElementById('go-places').addEventListener('click', textSearchPlaces);
-
-        // This function will loop through the listings and hide them all.
-      function hideMarkers(markers) {
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(null);
-        }
-      }
-
-    function populateInfoWindow(marker, infowindow) {
-        // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != marker) {
-          infowindow.marker = marker;
-          infowindow.setContent('<div>' + marker.title + '</div>');
-          infowindow.open(map, marker);
-          // Make sure the marker property is cleared if the infowindow is closed.
-          infowindow.addListener('closeclick',function(){
-            infowindow.setMarker = null;
-          });
-        }
-      }*/
-
-    this.applyFilter = function (place) {
-        console.log ('this is this place name + ' );
-    };
 
 }; // end VM
 
