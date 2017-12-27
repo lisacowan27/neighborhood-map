@@ -84,13 +84,12 @@ hr {
   margin-bottom: .5em;
 }
 
-/* not sure if I'm going to use these styles */
-
 #pano {
         width: 200px;
         height: 200px;
-      }
+}
 
+/* not sure if I'm going to use these styles */
 
 
 
@@ -107,5 +106,3 @@ hr {
       #zoom-to-area {
         width: 24%;
       }
-
-*/
