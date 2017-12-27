@@ -1,4 +1,4 @@
-  /* Knockout here -- used to handle the list, filter and any other information that is subject to changing state -- the Model stuff */
+/* Knockout here -- used to handle the list, filter and any other information that is subject to changing state -- the Model stuff */
 
 "use strict";
 
@@ -9,16 +9,16 @@ var map;
 // MODEL
 // Array containing location data
 var places = [
-  {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, selected: false},
-  {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, selected: false},
-  {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, selected: false},
-  {title: 'Hiawatha National Forest', LatLng: {lat: 46.2325682, lng: -86.5103487}, selected: false},
-  {title: 'Kitch-iti-kipi (Big Spring)', LatLng: {lat: 46.0041576, lng: -86.3906836}, selected: false},
-  {title: "Laughing Whitefish Falls", LatLng: {lat: 46.3976776, lng: -87.062704}, selected: false},
-  {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, selected: false},
-  {title: 'Manistique, MI', LatLng: {lat: 45.9447901, lng: -86.2497676}, selected: false},
-  {title: 'Marquette, MI', LatLng: {lat: 46.6101741, lng: -87.6294148}, selected: false},
-  {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, selected: false}
+  {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, class: 'baraga'},
+  {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, class: 'copper'},
+  {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, class: 'marais'},
+  {title: 'Hiawatha National Forest', LatLng: {lat: 46.2325682, lng: -86.5103487}, class: 'hiawatha'},
+  {title: 'Kitch-iti-kipi (Big Spring)', LatLng: {lat: 46.0041576, lng: -86.3906836}, class: 'spring'},
+  {title: "Laughing Whitefish Falls", LatLng: {lat: 46.3976776, lng: -87.062704}, class: 'falls'},
+  {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, class: 'mackinac'},
+  {title: 'Manistique, MI', LatLng: {lat: 45.9447901, lng: -86.2497676}, class: 'manistique'},
+  {title: 'Marquette, MI', LatLng: {lat: 46.6101741, lng: -87.6294148}, class: 'marquette'},
+  {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, class: 'tahquamenon'}
 ];
 
 var Place = function (data) {
@@ -133,17 +133,18 @@ var ViewPlaces = function() {
   addInfoWindowToMarkers();
 
   // Open the large infowindow at each marker.
-  function populateInfoWindow(marker, infowindow) {
+  function populateInfoWindow(marker, infowindow, data) {
 
     // Declare variables for this function
-    var articleUrl, articleList;
+    var articleUrl, articleList, articleImage;
 
     // Encode marker.title for URL
     var replacedTitle = marker.title;
     replacedTitle = encodeURIComponent(replacedTitle.trim());
 
     // Query for Wikipedia
-    var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
+    var wikiURL = 'https://en.wikipedia.org//w/api.php?action=query&format=json&prop=pageimages&piprop=thumbnail%7Cname&titles=' + replacedTitle;
+
     console.log('marker url ' + wikiURL);
     //timeout for wikipedia page if it takes more than 8 seconds
         var wikiTimeout = setTimeout(function () {
@@ -156,16 +157,17 @@ var ViewPlaces = function() {
             dataType: "jsonp",
 
             //jsonp datatype
-        }).done(function(response) {
-            var articleList = response[0];
+        }).done(function(data) {
+            console.log(data);
+            var articleList = [0];
             console.log('articleList ' + articleList);
             for (var i = 0; i < articleList.length; i++) {
-              var articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
+              articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
 
               // Check to make sure the infowindow is not already opened on this marker.
               if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent('<p>' + marker.title + '</p><br><a href ="' + articleUrl + '">Learn more</a>');
+                    infowindow.setContent('<p>' + marker.title + '</p><br><a href ="' + articleUrl + '">Learn more</a><div class="'+ data[i].class +'"></div>');
                     infowindow.open(map, marker);
 
                   // Make sure the marker property is cleared if the infowindow is closed.
@@ -178,21 +180,6 @@ var ViewPlaces = function() {
             clearTimeout(wikiTimeout);
         });
     }
-
-
-    // Two event listeners - one for mouseover, one for mouseout,
-    // to change the colors back and forth.
-    /*self.allMarkers().forEach(function(marker) {
-      marker.addListener('mouseover', function() {
-        this.setIcon(highlightedIcon);
-      });
-    });*/
-
-    /*self.allMarkers().forEach(function(marker) {
-      marker.addListener('mouseout', function() {
-        this.setIcon(defaultIcon);
-      });
-    });*/
 
     //console.log('marker array' + allMarkers);
 
