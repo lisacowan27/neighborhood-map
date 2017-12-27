@@ -9,15 +9,15 @@ var map;
 // MODEL
 // Array containing location data
 var places = [
-  {title: 'Big Spring', LatLng: {lat: 46.0041576, lng: -86.3906836}, selected: false},
-  {title: 'Bishop Baraga Shrine', LatLng: {lat: 46.749297, lng: -88.476654}, selected: false},
-  {title: "Canyon Falls", LatLng: {lat: 46.493566, lng: -88.8656547}, selected: false},
+  {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, selected: false},
   {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, selected: false},
-  {title: 'Manistique Lighthouse', LatLng: {lat: 45.9447901, lng: -86.2497676}, selected: false},
   {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, selected: false},
-  {title: 'Little Presque Isle', LatLng: {lat: 46.6388169, lng: -87.4677809}, selected: false},
+  {title: 'Hiawatha National Forest', LatLng: {lat: 46.2325682, lng: -86.5103487}, selected: false},
+  {title: 'Kitch-iti-kipi (Big Spring)', LatLng: {lat: 46.0041576, lng: -86.3906836}, selected: false},
+  {title: "Laughing Whitefish Falls", LatLng: {lat: 46.3976776, lng: -87.062704}, selected: false},
   {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, selected: false},
-  {title: 'Steuben, MI', LatLng: {lat: 46.188294, lng: -86.4655739}, selected: false},
+  {title: 'Manistique, MI', LatLng: {lat: 45.9447901, lng: -86.2497676}, selected: false},
+  {title: 'Marquette, MI', LatLng: {lat: 46.6101741, lng: -87.6294148}, selected: false},
   {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, selected: false}
 ];
 
@@ -134,10 +134,31 @@ var ViewPlaces = function() {
 
   // Open the large infowindow at each marker.
   function populateInfoWindow(marker, infowindow) {
+
+    var articleUrl;
+    var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wikiCallback';
+    console.log('marker url ' + wikiURL);
+    //timeout for wikipedia page if it takes more than 8 seconds
+        var wikiTimeout = setTimeout(function () {
+            alert("failed to load wikipedia page");
+        }, 8000);
+
+         //ajax requst
+        $.ajax({
+            url: wikiURL,
+            dataType: "jsonp"
+            //jsnop datatype
+        }).done(function(response) {
+            //timeout is cleared if wikipedia link is loaded successfully
+            clearTimeout(wikiTimeout);
+            //response from wikipedia api
+            articleUrl = response[3][0];
+        });
+
       // Check to make sure the infowindow is not already opened on this marker.
       if (infowindow.marker != marker) {
           infowindow.marker = marker;
-          infowindow.setContent('<div>' + marker.title + '</div>');
+          infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">' + articleUrl + '</a>');
           infowindow.open(map, marker);
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick',function(){
