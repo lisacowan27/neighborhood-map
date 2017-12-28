@@ -32,7 +32,7 @@
                   <input id="filter-text-box" class="text-input-box" type="text" placeholder="Big Spring" data-bind="textInput: filter, valueUpdate: 'keydown'"><i class="fa fa-filter fa-2" aria-hidden="true"></i>
               </div>
                 <ul id="test" data-bind="foreach: filteredPlaces">
-                  <li id="places" data-bind="text: title"></li>
+                  <li id="places" data-bind="text: title, click: ViewPlaces.list"></li>
                   <!--<li id="places" data-bind="text: title, click: ViewModel.show"></li>-->
                 </ul>
             </div>

@@ -1,4 +1,4 @@
-/* Knockout here -- used to handle the list, filter and any other information that is subject to changing state -- the Model stuff */
+  /* Knockout here -- used to handle the list, filter and any other information that is subject to changing state -- the Model stuff */
 
 "use strict";
 
@@ -9,16 +9,16 @@ var map;
 // MODEL
 // Array containing location data
 var places = [
-  {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, class: 'baraga'},
-  {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, class: 'copper'},
-  {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, class: 'marais'},
-  {title: 'Hiawatha National Forest', LatLng: {lat: 46.2325682, lng: -86.5103487}, class: 'hiawatha'},
-  {title: 'Kitch-iti-kipi (Big Spring)', LatLng: {lat: 46.0041576, lng: -86.3906836}, class: 'spring'},
-  {title: "Laughing Whitefish Falls", LatLng: {lat: 46.3976776, lng: -87.062704}, class: 'falls'},
-  {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, class: 'mackinac'},
-  {title: 'Manistique, MI', LatLng: {lat: 45.9447901, lng: -86.2497676}, class: 'manistique'},
-  {title: 'Marquette, MI', LatLng: {lat: 46.6101741, lng: -87.6294148}, class: 'marquette'},
-  {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, class: 'tahquamenon'}
+  {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, selected: false},
+  {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, selected: false},
+  {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, selected: false},
+  {title: 'Hiawatha National Forest', LatLng: {lat: 46.2325682, lng: -86.5103487}, selected: false},
+  {title: 'Kitch-iti-kipi (Big Spring)', LatLng: {lat: 46.0041576, lng: -86.3906836}, selected: false},
+  {title: "Laughing Whitefish Falls", LatLng: {lat: 46.3976776, lng: -87.062704}, selected: false},
+  {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, selected: false},
+  {title: 'Manistique, MI', LatLng: {lat: 45.9447901, lng: -86.2497676}, selected: false},
+  {title: 'Marquette, MI', LatLng: {lat: 46.6101741, lng: -87.6294148}, selected: false},
+  {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, selected: false}
 ];
 
 var Place = function (data) {
@@ -133,22 +133,19 @@ var ViewPlaces = function() {
   addInfoWindowToMarkers();
 
   // Open the large infowindow at each marker.
-  function populateInfoWindow(marker, infowindow, data) {
+  function populateInfoWindow(marker, infowindow) {
 
-    // Declare variables for this function
-    var articleUrl, articleList, articleImage;
+    var articleUrl, articleList;
 
-    // Encode marker.title for URL
     var replacedTitle = marker.title;
-    replacedTitle = encodeURIComponent(replacedTitle.trim());
 
-    // Query for Wikipedia
-    var wikiURL = 'https://en.wikipedia.org//w/api.php?action=query&format=json&prop=pageimages&piprop=thumbnail%7Cname&titles=' + replacedTitle;
+    replacedTitle = encodeURIComponent(replacedTitle.trim())
 
+    var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
     console.log('marker url ' + wikiURL);
     //timeout for wikipedia page if it takes more than 8 seconds
         var wikiTimeout = setTimeout(function () {
-            alert("Unable to load Wikipedia at this time.");
+            alert("failed to load wikipedia page");
         }, 8000);
 
          //ajax requst
@@ -157,19 +154,17 @@ var ViewPlaces = function() {
             dataType: "jsonp",
 
             //jsonp datatype
-        }).done(function(data) {
-            console.log(data);
-            var articleList = [0];
+        }).done(function(response) {
+            var articleList = response[0];
             console.log('articleList ' + articleList);
             for (var i = 0; i < articleList.length; i++) {
-              articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
-
-              // Check to make sure the infowindow is not already opened on this marker.
+              articleStr = articleList[i];
+              var articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
+              //console.log(url);
               if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent('<p>' + marker.title + '</p><br><a href ="' + articleUrl + '">Learn more</a><div class="'+ data[i].class +'"></div>');
+                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">See more on Wikipedia</a>');
                     infowindow.open(map, marker);
-
                   // Make sure the marker property is cleared if the infowindow is closed.
                   infowindow.addListener('closeclick',function(){
                     infowindow.setMarker = null;
@@ -178,8 +173,27 @@ var ViewPlaces = function() {
             }
             //timeout is cleared if wikipedia link is loaded successfully
             clearTimeout(wikiTimeout);
+            //response from wikipedia api
+            //articleUrl = response[1];
         });
+
+      // Check to make sure the infowindow is not already opened on this marker.
     }
+
+
+    // Two event listeners - one for mouseover, one for mouseout,
+    // to change the colors back and forth.
+    /*self.allMarkers().forEach(function(marker) {
+      marker.addListener('mouseover', function() {
+        this.setIcon(highlightedIcon);
+      });
+    });*/
+
+    /*self.allMarkers().forEach(function(marker) {
+      marker.addListener('mouseout', function() {
+        this.setIcon(defaultIcon);
+      });
+    });*/
 
     //console.log('marker array' + allMarkers);
 
@@ -210,7 +224,13 @@ var ViewPlaces = function() {
       }
     }, self);
 
+    this.applyFilter = function (place) {
+        console.log ('this is this place name + ' );
+    };
 
+    ViewPlaces.list = function(data, marker) {
+    google.maps.event.trigger(data.marker, 'click');
+};
 
 }; // end VM
 
@@ -225,163 +245,11 @@ var ViewPlaces = function() {
 
 function initMap() {
     // Create a styles array to use with the map.
-    var styles = [
-      {
-          featureType: "administrative",
-          elementType: "labels.text.fill",
-          stylers: [
-              {
-                  color: "#6195a0"
-              }
-          ]
-      },
-      {
-          featureType: "landscape",
-          elementType: "all",
-          stylers: [
-              {
-                  color: "#f2f2f2"
-              }
-          ]
-      },
-      {
-          featureType: "landscape",
-          elementType: "geometry.fill",
-          stylers: [
-              {
-                  color: "#ffffff"
-              }
-          ]
-      },
-      {
-          featureType: "poi",
-          elementType: "all",
-          stylers: [
-              {
-                  visibility: "off"
-              }
-          ]
-      },
-      {
-          featureType: "poi.park",
-          elementType: "geometry.fill",
-          stylers: [
-              {
-                  color: "#e6f3d6"
-              },
-              {
-                  visibility: "on"
-              }
-          ]
-      },
-      {
-          featureType: "road",
-          elementType: "all",
-          stylers: [
-              {
-                  saturation: -100
-              },
-              {
-                  lightness: 45
-              },
-              {
-                  visibility: "simplified"
-              }
-          ]
-      },
-      {
-          featureType: "road.highway",
-          elementType: "all",
-          stylers: [
-              {
-                  visibility: "simplified"
-              }
-          ]
-      },
-      {
-          featureType: "road.highway",
-          elementType: "geometry.fill",
-          stylers: [
-              {
-                  color: "#f4d2c5"
-              },
-              {
-                  visibility: "simplified"
-              }
-          ]
-      },
-      {
-          featureType: "road.highway",
-          elementType: "labels.text",
-          stylers: [
-              {
-                  color: "#4e4e4e"
-              }
-          ]
-      },
-      {
-          featureType: "road.arterial",
-          elementType: "geometry.fill",
-          stylers: [
-              {
-                  color: "#f4f4f4"
-              }
-          ]
-      },
-      {
-          featureType: "road.arterial",
-          elementType: "labels.text.fill",
-          stylers: [
-              {
-                  color: "#787878"
-              }
-          ]
-      },
-      {
-          featureType: "road.arterial",
-          elementType: "labels.icon",
-          stylers: [
-              {
-                  visibility: "off"
-              }
-          ]
-      },
-      {
-          featureType: "transit",
-          elementType: "all",
-          stylers: [
-              {
-                  visibility: "off"
-              }
-          ]
-      },
-      {
-          featureType: "water",
-          elementType: "all",
-          stylers: [
-              {
-                  color: "#eaf6f8"
-              },
-              {
-                  visibility: "on"
-              }
-          ]
-      },
-      {
-          featureType: "water",
-          elementType: "geometry.fill",
-          stylers: [
-              {
-                  color: "#eaf6f8"
-              }
-          ]
-      }
-  ];
 
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 46.188294, lng: -86.4655739},
-      styles: styles,
+      //styles: styles,
       zoom: 10
     });
 
