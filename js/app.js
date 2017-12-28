@@ -27,7 +27,6 @@ var Place = function (data) {
     this.title = data.title;
     this.LatLng = data.LatLng;
     this.selected = ko.observable(data.selected);
-    //this.marker = data.marker;
 };
 
 //VIEW MODEL
@@ -138,8 +137,7 @@ var ViewPlaces = function() {
     var articleUrl, articleList;
 
     var replacedTitle = marker.title;
-
-    replacedTitle = encodeURIComponent(replacedTitle.trim())
+    replacedTitle = encodeURIComponent(replacedTitle.trim());
 
     var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
     console.log('marker url ' + wikiURL);
@@ -180,21 +178,6 @@ var ViewPlaces = function() {
       // Check to make sure the infowindow is not already opened on this marker.
     }
 
-
-    // Two event listeners - one for mouseover, one for mouseout,
-    // to change the colors back and forth.
-    /*self.allMarkers().forEach(function(marker) {
-      marker.addListener('mouseover', function() {
-        this.setIcon(highlightedIcon);
-      });
-    });*/
-
-    /*self.allMarkers().forEach(function(marker) {
-      marker.addListener('mouseout', function() {
-        this.setIcon(defaultIcon);
-      });
-    });*/
-
     //console.log('marker array' + allMarkers);
 
     // The following creates the filter function for the place names and map markers
@@ -230,7 +213,7 @@ var ViewPlaces = function() {
 
     ViewPlaces.list = function(data, marker) {
     google.maps.event.trigger(data.marker, 'click');
-};
+    };
 
 }; // end VM
 
