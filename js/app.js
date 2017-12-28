@@ -9,16 +9,16 @@ var map;
 // MODEL
 // Array containing location data
 var places = [
-  {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, selected: false},
-  {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, selected: false},
-  {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, selected: false},
-  {title: 'Hiawatha National Forest', LatLng: {lat: 46.2325682, lng: -86.5103487}, selected: false},
-  {title: 'Kitch-iti-kipi (Big Spring)', LatLng: {lat: 46.0041576, lng: -86.3906836}, selected: false},
-  {title: "Laughing Whitefish Falls", LatLng: {lat: 46.3976776, lng: -87.062704}, selected: false},
-  {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, selected: false},
-  {title: 'Manistique, MI', LatLng: {lat: 45.9447901, lng: -86.2497676}, selected: false},
-  {title: 'Marquette, MI', LatLng: {lat: 46.6101741, lng: -87.6294148}, selected: false},
-  {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, selected: false}
+  {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, class: false},
+  {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, class: false},
+  {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, class: false},
+  {title: 'Hiawatha National Forest', LatLng: {lat: 46.2325682, lng: -86.5103487}, class: false},
+  {title: 'Kitch-iti-kipi (Big Spring)', LatLng: {lat: 46.0041576, lng: -86.3906836}, class: false},
+  {title: "Laughing Whitefish Falls", LatLng: {lat: 46.3976776, lng: -87.062704}, class: false},
+  {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, class: false},
+  {title: 'Manistique, MI', LatLng: {lat: 45.9447901, lng: -86.2497676}, class: false},
+  {title: 'Marquette, MI', LatLng: {lat: 46.6101741, lng: -87.6294148}, class: false},
+  {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, class: false}
 ];
 
 var Place = function (data) {
@@ -27,6 +27,7 @@ var Place = function (data) {
     this.title = data.title;
     this.LatLng = data.LatLng;
     this.selected = ko.observable(data.selected);
+    //this.marker = data.marker;
 };
 
 //VIEW MODEL
@@ -134,7 +135,7 @@ var ViewPlaces = function() {
   // Open the large infowindow at each marker.
   function populateInfoWindow(marker, infowindow) {
 
-    var articleUrl, articleList;
+    var articleUrl, articleList, articleStr;
 
     var replacedTitle = marker.title;
     replacedTitle = encodeURIComponent(replacedTitle.trim());
@@ -158,6 +159,7 @@ var ViewPlaces = function() {
             for (var i = 0; i < articleList.length; i++) {
               articleStr = articleList[i];
               var articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
+              console.log('articleStr ' + articleStr );
               //console.log(url);
               if (infowindow.marker != marker) {
                     infowindow.marker = marker;
@@ -178,7 +180,6 @@ var ViewPlaces = function() {
       // Check to make sure the infowindow is not already opened on this marker.
     }
 
-    //console.log('marker array' + allMarkers);
 
     // The following creates the filter function for the place names and map markers
 
@@ -213,7 +214,7 @@ var ViewPlaces = function() {
 
     ViewPlaces.list = function(data, marker) {
     google.maps.event.trigger(data.marker, 'click');
-    };
+  };
 
 }; // end VM
 
