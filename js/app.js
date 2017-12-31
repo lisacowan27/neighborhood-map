@@ -28,7 +28,6 @@ var Place = function (data) {
     this.LatLng = data.LatLng;
     this.selected = ko.observable(data.selected);
     this.css = data.css;
-    //this.marker = data.marker;
 };
 
 //VIEW MODEL
@@ -123,9 +122,9 @@ var ViewPlaces = function() {
 
       // Add and InfoWindow for each marker on the map
       self.placeList().forEach(function(data) {
-        console.log(self.placeList()); // works
+        console.log('place list 126 ' + self.placeList()); // works
         var marker = data.marker;
-        var cssClass = data.class;
+        var cssClass = data.css;
         console.log(cssClass + 'cssClass');
         marker.addListener('click', function() {
           //console.log('this is ' + this);
@@ -168,7 +167,7 @@ var ViewPlaces = function() {
               //console.log(url);
               if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">See more on Wikipedia</a><div class="' + data.class + '"></div>');
+                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">See more on Wikipedia</a><div class="bkg-image"></div>');
                     infowindow.open(map, marker);
                   // Make sure the marker property is cleared if the infowindow is closed.
                   infowindow.addListener('closeclick',function(){
