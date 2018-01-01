@@ -83,26 +83,3 @@ hr {
 .text {
   margin-bottom: .5em;
 }
-
-#pano {
-        width: 200px;
-        height: 200px;
-}
-
-/* not sure if I'm going to use these styles */
-
-
-
-      #toggle-drawing {
-        width: 27%;
-        position: relative;
-        margin-left: 10px;
-      }
-
-      #zoom-to-area-text {
-        width: 70%;
-      }
-
-      #zoom-to-area {
-        width: 24%;
-      }

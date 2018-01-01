@@ -6,6 +6,7 @@
 var map;
 
 
+
 // MODEL
 // Array containing location data
 var places = [
@@ -26,7 +27,6 @@ var Place = function (data) {
     // Initializing data from places array
     this.title = data.title;
     this.LatLng = data.LatLng;
-    this.selected = ko.observable(data.selected);
     this.css = data.css;
 };
 
@@ -124,8 +124,6 @@ var ViewPlaces = function() {
       self.placeList().forEach(function(data) {
         console.log('place list 126 ' + self.placeList()); // works
         var marker = data.marker;
-        var cssClass = data.css;
-        console.log(cssClass + 'cssClass');
         marker.addListener('click', function() {
           //console.log('this is ' + this);
           //console.log('click');
@@ -140,10 +138,13 @@ var ViewPlaces = function() {
   // Open the large infowindow at each marker.
   function populateInfoWindow(marker, infowindow) {
 
-    var articleUrl, articleList, articleStr, replacedTitle;
+    var articleUrl, articleList, articleStr, replacedTitle, cssClass;
 
     replacedTitle = marker.title;
     replacedTitle = encodeURIComponent(replacedTitle.trim());
+
+    cssClass = self.css;
+    console.log(cssClass + ' cssClass');
 
     var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
     console.log('marker url ' + wikiURL);
@@ -167,7 +168,7 @@ var ViewPlaces = function() {
               //console.log(url);
               if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">See more on Wikipedia</a><div class="bkg-image"></div>');
+                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">See more on Wikipedia</a><div class="'+ cssClass + '"></div>');
                     infowindow.open(map, marker);
                   // Make sure the marker property is cleared if the infowindow is closed.
                   infowindow.addListener('closeclick',function(){
@@ -187,7 +188,7 @@ var ViewPlaces = function() {
 
     // The following creates the filter function for the place names and map markers
 
-    this.filter = ko.observable('');
+   this.filter = ko.observable('');
 
     this.filteredPlaces = ko.computed(function() {
     var filter = self.filter().toLowerCase();
@@ -219,6 +220,8 @@ var ViewPlaces = function() {
     ViewPlaces.list = function(data, marker) {
     google.maps.event.trigger(data.marker, 'click');
   };
+
+
 
 }; // end VM
 

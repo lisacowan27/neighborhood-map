@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Photo credits
-    Marquette Lighthouse,
-    Tahquamenon Falls, : SuperiorTrails.com;
-    Grand Marais Log Slide, Summitpost.org,
-    Hiawatha National Forest, Upper Michigan Landscapes Gallery http://www.kgcphoto.com/Upper_Michigan_Landscapes.htm, Mackinac Island, Living Social Guide to Chicago
-
-
-    -->
     <title>Neighborhood Map Project</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600|Indie+Flower" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
@@ -28,15 +20,11 @@
         <div class="col-4 col-sm-4 col-md-4 col-lg-4 options-box">
             <div>
               <p class="text">To learn more about an area of interest, start to type the name, or click on one of the icons.</p>
-              <!--<ul data-bind="foreach: placeList" class="location-list">
-                <li data-bind="text: title"></li>
-              </ul>-->
               <div class="input-group">
-                  <input id="filter-text-box" class="text-input-box" type="text" placeholder="Big Spring" data-bind="textInput: filter, valueUpdate: 'keydown'"><i class="fa fa-filter fa-2" aria-hidden="true"></i>
+                  <input id="filter-text-box" class="text-input-box" type="text" placeholder="Baraga State Park" data-bind="textInput: filter, valueUpdate: 'keydown'"><i class="fa fa-filter fa-2" aria-hidden="true"></i>
               </div>
                 <ul id="test" data-bind="foreach: filteredPlaces">
-                  <li id="places" data-bind="text: title, click: ViewPlaces.list"></li>
-                  <!--<li id="places" data-bind="text: title, click: ViewModel.show"></li>-->
+                  <li id="places" data-bind="text: title, click: ViewPlaces.list" data-toggle="modal" href="#modal"></li>
                 </ul>
             </div>
         </div>
@@ -48,6 +36,7 @@
         </div>
       </div>
     </div>
+
     <script src="js/lib/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
