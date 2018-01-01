@@ -44,7 +44,6 @@ hr {
 
 .h1 {
   color: #333;
-  display: inline;
   padding-right: 3%;
   margin-bottom: 20px;
   font: normal 600 36px/42px 'Indie Flower', cursive;
@@ -82,4 +81,39 @@ hr {
 
 .text {
   margin-bottom: .5em;
+}
+
+/* ------------------------------------------
+Media queries
+--------------------------------------------- */
+
+@media only screen and (max-width:900px) {
+
+}
+
+@media only screen and (max-width: 768px) {
+
+
+}
+
+@media only screen and (max-width: 600px) {
+
+  .options-box {
+    height : 100%;
+  }
+
+  #map {
+    position: relative;
+  }
+
+}
+
+@media only screen and (max-width: 500px) {
+
+
+}
+
+@media only screen and (max-width: 414px) {
+
+
 }
