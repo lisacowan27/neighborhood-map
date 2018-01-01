@@ -83,6 +83,25 @@ hr {
   margin-bottom: .5em;
 }
 
+a, a:visited {
+  color: #00b3e6;
+  text-decoration: none;
+}
+
+a:hover, a:active {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------
+Infowindow styles
+--------------------------------------------- */
+
+
+.gm-style .gm-style-iw {
+  font: normal 300 16px/20px 'Nunito Sans', sans-serif;
+  padding: 2%;
+}
+
 /* ------------------------------------------
 Media queries
 --------------------------------------------- */
