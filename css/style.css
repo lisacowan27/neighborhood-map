@@ -7,7 +7,7 @@ body {
 }
 
 body, .text {
-  font: normal 300 16px/20px 'Nunito Sans', sans-serif;
+  font: normal 300 16px/24px 'Nunito Sans', sans-serif;
 }
 
 #map {
@@ -46,7 +46,7 @@ hr {
   color: #333;
   padding-right: 3%;
   margin-bottom: 20px;
-  font: normal 600 36px/42px 'Indie Flower', cursive;
+  font: normal 600 42px/42px 'Indie Flower', cursive;
 }
 
 .h2 {
@@ -92,13 +92,17 @@ a:hover, a:active {
   text-decoration: underline;
 }
 
+.footer {
+  font-size: 0.75em;
+  color: #d4d4d4;
+}
+
 /* ------------------------------------------
-Infowindow styles
+Map styles
 --------------------------------------------- */
 
-
 .gm-style .gm-style-iw {
-  font: normal 300 16px/20px 'Nunito Sans', sans-serif;
+  font: normal 300 16px/24px 'Nunito Sans', sans-serif;
   padding: 2%;
 }
 
@@ -119,6 +123,7 @@ Media queries
 
   .options-box {
     height : 100%;
+    margin-bottom: 2em;
   }
 
   #map {
@@ -129,6 +134,9 @@ Media queries
 
 @media only screen and (max-width: 500px) {
 
+body, .text {
+  font: normal 300 20px/28px 'Nunito Sans', sans-serif;
+}
 
 }
 

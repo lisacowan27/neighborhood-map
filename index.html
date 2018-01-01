@@ -10,29 +10,39 @@
   </head>
   <body>
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 intro-box">
-          <h1 class="h1">The Upper Pennisula of Michigan</h1>
-          <p class="text">The <b>Upper Peninsula</b> (<b>the UP</b>), also known as <b>Upper Michigan</b>, is the northern of the <a href="/wiki/Peninsulas_of_Michigan" title="Peninsulas of Michigan">two major peninsulas</a> that make up the U.S. state of <a href="/wiki/Michigan" title="Michigan">Michigan</a>. The peninsula is bounded on the north by <a href="/wiki/Lake_Superior" title="Lake Superior">Lake Superior</a>, on the east by the <a href="/wiki/St._Marys_River_(Michigan-Ontario)" class="mw-redirect" title="St. Marys River (Michigan-Ontario)">St. Marys River</a>, on the southeast by <a href="/wiki/Lake_Michigan" title="Lake Michigan">Lake Michigan</a> and <a href="/wiki/Lake_Huron" title="Lake Huron">Lake Huron</a>, and on the southwest by <a href="/wiki/Wisconsin" title="Wisconsin">Wisconsin</a>. Read more <a href="https://en.wikipedia.org/wiki/Upper_Peninsula_of_Michigan" name="Upper Peninsula of Michigan from Wikipedia">here ... </a>Citation: Wikipedia</p>
+      <aside>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 intro-box">
+            <h1 class="h1">The Upper Pennisula of Michigan</h1>
+            <p class="text">The <b>Upper Peninsula</b> (<b>the UP</b>), also known as <b>Upper Michigan</b>, is the northern of the <a href="/wiki/Peninsulas_of_Michigan" title="Peninsulas of Michigan">two major peninsulas</a> that make up the U.S. state of <a href="/wiki/Michigan" title="Michigan">Michigan</a>. The peninsula is bounded on the north by <a href="/wiki/Lake_Superior" title="Lake Superior">Lake Superior</a>, on the east by the <a href="/wiki/St._Marys_River_(Michigan-Ontario)" class="mw-redirect" title="St. Marys River (Michigan-Ontario)">St. Marys River</a>, on the southeast by <a href="/wiki/Lake_Michigan" title="Lake Michigan">Lake Michigan</a> and <a href="/wiki/Lake_Huron" title="Lake Huron">Lake Huron</a>, and on the southwest by <a href="/wiki/Wisconsin" title="Wisconsin">Wisconsin</a>. Read more <a href="https://en.wikipedia.org/wiki/Upper_Peninsula_of_Michigan" name="Upper Peninsula of Michigan from Wikipedia">here ... </a>Citation: Wikipedia</p>
+          </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 options-box">
-            <div>
-              <p class="text">To learn more about an area of interest, start to type the name, or click on one of the icons.</p>
-              <div class="input-group">
-                  <input id="filter-text-box" class="text-input-box" type="text" placeholder="Baraga State Park" data-bind="textInput: filter, valueUpdate: 'keydown'"><i class="fa fa-filter fa-2" aria-hidden="true"></i>
+      </aside>
+      <main>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 options-box">
+              <div>
+                <p class="text">To learn more about an area of interest, start to type the name, or click on one of the icons.</p>
+                <div class="input-group">
+                    <input id="filter-text-box" class="text-input-box" type="text" placeholder="Baraga State Park" data-bind="textInput: filter, valueUpdate: 'keydown'"><i class="fa fa-filter fa-2" aria-hidden="true"></i>
+                </div>
+                  <ul id="test" data-bind="foreach: filteredPlaces">
+                    <li id="places" data-bind="text: title, click: ViewPlaces.list" data-toggle="modal" href="#modal"></li>
+                  </ul>
               </div>
-                <ul id="test" data-bind="foreach: filteredPlaces">
-                  <li id="places" data-bind="text: title, click: ViewPlaces.list" data-toggle="modal" href="#modal"></li>
-                </ul>
-            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+            <div id="map"></div>
+          </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-          <div id="map"></div>
+      </main>
+      <footer>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <p class="footer">&copy; 2017 Lisa Cowan. All rights reserved.</p>
+          </div>
         </div>
-      </div>
+      </footer>
     </div>
 
     <script src="js/lib/jquery-3.2.1.min.js"></script>
