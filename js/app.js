@@ -138,13 +138,13 @@ var ViewPlaces = function() {
   // Open the large infowindow at each marker.
   function populateInfoWindow(marker, infowindow) {
 
-    var articleUrl, articleList, articleStr, replacedTitle, cssClass;
+    var articleUrl, articleList, articleStr, replacedTitle;
 
     replacedTitle = marker.title;
     replacedTitle = encodeURIComponent(replacedTitle.trim());
 
-    cssClass = self.css;
-    console.log(cssClass + ' cssClass');
+    //cssClass = self.css;
+    //console.log(cssClass + ' cssClass');
 
     var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
     console.log('marker url ' + wikiURL);
@@ -160,6 +160,7 @@ var ViewPlaces = function() {
 
             //jsonp datatype
         }).done(function(response) {
+
             var articleList = response[0];
             console.log('articleList ' + articleList);
             for (var i = 0; i < articleList.length; i++) {
@@ -168,14 +169,15 @@ var ViewPlaces = function() {
               //console.log(url);
               if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">See more on Wikipedia</a><div class="'+ cssClass + '"></div>');
+                    console.log('infowindow marker ' + infowindow.marker);
+                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">See more on Wikipedia</a><div class=""></div>');
                     infowindow.open(map, marker);
                   // Make sure the marker property is cleared if the infowindow is closed.
                   infowindow.addListener('closeclick',function(){
                     infowindow.setMarker = null;
                   });
                 }
-            }
+          }
             //timeout is cleared if wikipedia link is loaded successfully
             clearTimeout(wikiTimeout);
             //response from wikipedia api
