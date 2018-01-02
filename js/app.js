@@ -6,7 +6,6 @@
 var map;
 
 
-
 // MODEL
 // Array containing location data
 var places = [
@@ -27,8 +26,8 @@ var Place = function (data) {
     // Initializing data from places array
     this.title = data.title;
     this.LatLng = data.LatLng;
-    this.image = data.image;
-    this.imageInfo = data.imageInfo;
+    this.image = ko.observable(data.image);
+    this.imageInfo = ko.observable(data.imageInfo);
 };
 
 //VIEW MODEL
@@ -139,7 +138,7 @@ var ViewPlaces = function() {
   // Open the large infowindow at each marker.
   function populateInfoWindow(marker, infowindow) {
 
-    var articleUrl, articleList, articleStr, replacedTitle;
+    var wikiURL, articleUrl, articleList, articleStr, replacedTitle;
 
     replacedTitle = marker.title;
     replacedTitle = encodeURIComponent(replacedTitle.trim());
@@ -147,8 +146,11 @@ var ViewPlaces = function() {
     //cssClass = self.css;
     //console.log(cssClass + ' cssClass');
 
-    var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
-    console.log('marker url ' + wikiURL);
+    self.placeList().forEach(function(data) {
+
+    wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
+
+
     //timeout for wikipedia page if it takes more than 8 seconds
         var wikiTimeout = setTimeout(function () {
             alert("failed to load wikipedia page");
@@ -163,15 +165,26 @@ var ViewPlaces = function() {
         }).done(function(response) {
 
             var articleList = response[0];
+
             console.log('articleList ' + articleList);
+
             for (var i = 0; i < articleList.length; i++) {
               articleStr = articleList[i];
               var articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
+
+              data.articleUrl = articleUrl;
+
               //console.log(url);
               if (infowindow.marker != marker) {
                     infowindow.marker = marker;
                     console.log('infowindow marker ' + infowindow.marker);
-                    infowindow.setContent('<div>' + marker.title + '</div><br><a href ="' + articleUrl + '">See more on Wikipedia</a><div class=""></div>');
+
+                    var infoWindowHTML = '<div id="info-window"' +
+                    'data-bind="template: {name: \'info-window-template\', data: title }">' +
+                    marker.title + '</div>'
+
+                    infowindow.setContent(infoWindowHTML);
+
                     infowindow.open(map, marker);
                   // Make sure the marker property is cleared if the infowindow is closed.
                   infowindow.addListener('closeclick',function(){
@@ -186,8 +199,9 @@ var ViewPlaces = function() {
         });
 
       // Check to make sure the infowindow is not already opened on this marker.
-    }
+    });
 
+  }
 
     // The following creates the filter function for the place names and map markers
 
@@ -391,8 +405,6 @@ function initMap() {
         ]
     }
 ];
-
-
 
     // Constructor creates a new map - only center and zoom are required.
     map = new google.maps.Map(document.getElementById('map'), {
