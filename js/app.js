@@ -10,16 +10,16 @@ var map;
 // MODEL
 // Array containing location data
 var places = [
-  {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, selected: false, css: 'baraga'},
-  {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, selected: false, css: 'copper'},
-  {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, selected: false, css: 'marais'},
-  {title: 'Hiawatha National Forest', LatLng: {lat: 46.2325682, lng: -86.5103487}, selected: false, css: 'forest'},
-  {title: 'Kitch-iti-kipi (Big Spring)', LatLng: {lat: 46.0041576, lng: -86.3906836}, selected: false, css: 'spring'},
-  {title: "Laughing Whitefish Falls", LatLng: {lat: 46.3976776, lng: -87.062704}, selected: false, css: 'falls'},
-  {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, selected: false, css: 'island'},
-  {title: 'Manistique, MI', LatLng: {lat: 45.9447901, lng: -86.2497676}, selected: false, css: 'manistique'},
-  {title: 'Marquette, MI', LatLng: {lat: 46.6101741, lng: -87.6294148}, selected: false, css: 'marquette'},
-  {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, selected: false, css: 'tahquamenon'}
+  {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, selected: false, image: 'BaragaStatePark.png', imageInfo: 'Bishop Baraga Shrine'},
+  {title: 'Copper Harbor, MI', LatLng: {lat: 47.4694752, lng: -87.9133548}, selected: false, image: 'CopperHarbor.png', imageInfo: 'Copper Harbor, Lake Superior'},
+  {title: 'Grand Marais, MI', LatLng: {lat: 46.6717881, lng: -85.9928782}, selected: false, image: 'GrandMarais.png', imageInfo: 'Grand Marais, Lake Superior'},
+  {title: 'Hiawatha National Forest', LatLng: {lat: 46.2325682, lng: -86.5103487}, selected: false, image: 'HiawathaIndianRiver.png', imageInfo: 'Indian River, Hiawatha National Forest'},
+  {title: 'Kitch-iti-kipi (Big Spring)', LatLng: {lat: 46.0041576, lng: -86.3906836}, selected: false, image: 'BigSpring.png', imageInfo: 'Big Spring Shoreline'},
+  {title: "Laughing Whitefish Falls", LatLng: {lat: 46.3976776, lng: -87.062704}, selected: false, image: 'LaughingWhitefishFalls.png', imageInfo: 'Laughing Whitefish Falls'},
+  {title: 'Mackinac Island', LatLng: {lat: 45.8657336, lng: -84.6444116}, selected: false, image: 'Mackinac.png', imageInfo: 'Mackinac Island, view from Main Street'},
+  {title: 'Manistique, MI', LatLng: {lat: 45.9447901, lng: -86.2497676}, selected: false, image: 'Manistique.png', imageInfo: 'Manistique Lighthouse'},
+  {title: 'Marquette, MI', LatLng: {lat: 46.6101741, lng: -87.6294148}, selected: false, image: 'Marquette.png', imageInfo: 'Marquette, shoreline at Presque Island'},
+  {title: 'Tahquamenon Falls', LatLng: {lat: 46.6053783, lng: -85.204166}, selected: false, image: 'TaquamenonFalls.png', imageInfo: 'Upper Tahquamenon Falls'}
 ];
 
 var Place = function (data) {
@@ -27,7 +27,8 @@ var Place = function (data) {
     // Initializing data from places array
     this.title = data.title;
     this.LatLng = data.LatLng;
-    this.css = data.css;
+    this.image = data.image;
+    this.imageInfo = data.imageInfo;
 };
 
 //VIEW MODEL
