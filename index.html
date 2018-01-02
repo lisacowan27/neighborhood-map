@@ -46,7 +46,12 @@
     </div>
 
     <script type="text/html" id="info-window-template">
+      <div>
       <h3 data-bind="text: $data"></h3>
+      <p><a href="$data" title="$data">More information form Wikipedia</a></p>
+      '<img src="" alt="" data-bind="att: {src: $data}">' +
+      '<p data-bind={text: $data}></p>'
+      </div>
     </script>
 
     <script src="js/lib/jquery-3.2.1.min.js"></script>
