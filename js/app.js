@@ -26,8 +26,8 @@ var Place = function (data) {
     // Initializing data from places array
     this.title = data.title;
     this.LatLng = data.LatLng;
-    this.image = ko.observable(data.image);
-    this.imageInfo = ko.observable(data.imageInfo);
+    this.image = data.image;
+    this.imageInfo = data.imageInfo;
 };
 
 //VIEW MODEL
@@ -179,12 +179,11 @@ var ViewPlaces = function() {
                     infowindow.marker = marker;
                     console.log('infowindow marker ' + infowindow.marker);
 
-                    var infoWindowHTML = '<div id="info-window"' +
-                    'data-bind="template: {name: \'info-window-template\', data: place}">' +
-                    marker.title + '<p><a data-bind="attr: { href: articleUrl, title: imageInfo }">' +
+                    var infoWindowHTML = '<div>' +
+                    marker.title + '<p><a href=' + data.articleUrl + ' title=' + data.imageInfo + '">' +
                     'More information from Wikipedia</a><p>' +
-                    '<img data-bind="att: {src: image}">' +
-                    '<p data-bind={text: imageInfo}></p>'
+                    '<img src="images/' + data.image + '" alt="' + data.imageInfo + '">' +
+                    '<p>' + data.imageInfo + '</p>'
                     '</div>'
 
                     infowindow.setContent(infoWindowHTML);
