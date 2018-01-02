@@ -185,6 +185,10 @@ var ViewPlaces = function() {
                     '<img src="images/' + data.image + '" alt="' + data.imageInfo + '">' +
                     '<p>' + data.imageInfo + '</p>'
                     '</div>'
+                    console.log('articleUrl ' + data.articleUrl);
+                    console.log('imageInfo ' + data.imageInfo);
+                    console.log('data.image ' + data.image);
+
 
                     infowindow.setContent(infoWindowHTML);
 
@@ -416,29 +420,6 @@ function initMap() {
       mapTypeControl: false,
       zoom: 10
     });
-
-    var bounds = new google.maps.LatLngBounds();
-
-    // Style the markers a bit. This will be our listing marker icon.
-    var defaultIcon = makeMarkerIcon('00b3e6');
-
-    // Create a "highlighted location" marker color for when the user
-    // mouses over the marker.
-    var highlightedIcon = makeMarkerIcon('eceb97');
-
-    // This function takes in a COLOR, and then creates a new marker
-    // icon of that color. The icon will be 21 px wide by 34 high, have an origin
-      // of 0, 0 and be anchored at 10, 34).
-    function makeMarkerIcon(markerColor) {
-        var markerImage = new google.maps.MarkerImage(
-          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
-          '|40|_|%E2%80%A2',
-          new google.maps.Size(21, 34),
-          new google.maps.Point(0, 0),
-          new google.maps.Point(10, 34),
-          new google.maps.Size(21,34));
-        return markerImage;
-      }
 
     //To Activate Knockout through app.js
     ko.applyBindings(new ViewPlaces());
