@@ -47,10 +47,10 @@
 
     <script type="text/html" id="info-window-template">
       <div>
-      <h3 data-bind="text: $data"></h3>
-      <p><a href="$data" title="$data">More information form Wikipedia</a></p>
-      '<img src="" alt="" data-bind="att: {src: $data}">' +
-      '<p data-bind={text: $data}></p>'
+        <h3></h3>
+        <p><a data-bind="attr: $data, title: imageInfo">More information form Wikipedia</a></p>
+        <img data-bind="attr: $data}">
+        <p data-bind="text: $data}></p>
       </div>
     </script>
 

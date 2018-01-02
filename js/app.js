@@ -180,7 +180,7 @@ var ViewPlaces = function() {
                     console.log('infowindow marker ' + infowindow.marker);
 
                     var infoWindowHTML = '<div id="info-window"' +
-                    'data-bind="template: {name: \'info-window-template\'">' +
+                    'data-bind="template: {name: \'info-window-template\', data: place}">' +
                     marker.title + '<p><a data-bind="attr: { href: articleUrl, title: imageInfo }">' +
                     'More information from Wikipedia</a><p>' +
                     '<img data-bind="att: {src: image}">' +
