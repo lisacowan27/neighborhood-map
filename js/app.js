@@ -136,7 +136,7 @@ var ViewPlaces = function() {
   addInfoWindowToMarkers();
 
   // Open the large infowindow at each marker.
-  function populateInfoWindow(marker, infowindow) {
+  function populateInfoWindow(marker, data, infowindow) {
 
     var wikiURL, articleUrl, articleList, articleStr, replacedTitle;
 
