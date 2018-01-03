@@ -1,12 +1,10 @@
-  /* Knockout here -- used to handle the list, filter and any other information that is subject to changing state -- the Model stuff */
-
 "use strict";
 
 // GLOBAL VARIABLES
 var map;
 
-
 // MODEL
+
 // Array containing location data
 var places = [
   {title: 'Baraga State Park', LatLng: {lat: 46.749297, lng: -88.476654}, selected: false, image: 'BaragaStatePark.png', imageInfo: 'Bishop Baraga Shrine'},
@@ -30,29 +28,23 @@ var Place = function (data) {
     this.imageInfo = data.imageInfo;
 };
 
-//VIEW MODEL
-// functions to add markers, show data, filter locations, update infowindow content etc.
-// Run API calls to get data
-/* Creating markers as part of your VM is recommended, but the cannot be knockout observables.*/
+// VIEW MODEL
 
 var ViewPlaces = function() {
   var self = this;
 
+  /* The following involves the creation of markers and map boundaries for the markers */
+
+  // Global variables for the markers, bounds, and infowindows functions
   var marker, markers = [], bounds;
 
-  var largeInfowindow = new google.maps.InfoWindow();
-
-
-  // Style the markers a bit. This will be our listing marker icon.
+  // Default icon color
   var defaultIcon = makeMarkerIcon('00b3e6');
 
-  // Create a "highlighted location" marker color for when the user
-  // mouses over the marker.
+  // Mouseover/highlighted marker color
   var highlightedIcon = makeMarkerIcon('eceb97');
 
-  // This function takes in a COLOR, and then creates a new marker
-  // icon of that color. The icon will be 21 px wide by 34 high, have an origin
-    // of 0, 0 and be anchored at 10, 34).
+  // Create marker size and origin relative to position on the map
   function makeMarkerIcon(markerColor) {
     var markerImage = new google.maps.MarkerImage(
       'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -64,15 +56,15 @@ var ViewPlaces = function() {
     return markerImage;
   }
 
+  // Create observable array of model data
   self.placeList = ko.observableArray([]);
 
+  // Push model data into the above array
   places.forEach(function(place){
       self.placeList.push( new Place(place) );
   });
 
-    console.log(self.placeList()); // works
-
-  // Add markers to the map
+  // Create and add markers to the map. Also animate icon drop and use default icon color
   self.placeList().forEach(function(data) {
       data.marker = new google.maps.Marker({
         map: map,
@@ -82,12 +74,10 @@ var ViewPlaces = function() {
         icon: defaultIcon
       });
 
-    //console.log('placeList after markers ' + places);
-
     // Add the markers created in the previous function to an array
     markers.push(data.marker);
-    //console.log('markers here ' + markers);
 
+    // Add markers to model data
     marker = data.marker;
 
     // Rollovers for markers
@@ -99,7 +89,7 @@ var ViewPlaces = function() {
       this.setIcon(defaultIcon);
     });
 
-    // Loop through the markers array and display them all within the boundaries of the map
+    // Create LatLng Bounds
     bounds = new google.maps.LatLngBounds();
 
     // Extend the boundaries of the map for each marker and display the marker
@@ -107,26 +97,25 @@ var ViewPlaces = function() {
       markers[i].setMap(map);
       bounds.extend(markers[i].position);
     }
-
     map.fitBounds(bounds);
 
   });
 
-  console.log(self.placeList()); // works
+  /* The following section involves the creation of markers and map boundaries for the markers */
 
-  // Create Google Maps InfoWindows
+  // Create new largeInfowindow
+  var largeInfowindow = new google.maps.InfoWindow();
+
+  // Add infowindows to the map with a placeholder property for content
   function addInfoWindowToMarkers(markers, map) {
       var infowindow = new google.maps.InfoWindow({
         content: 'information'
       });
 
-      // Add and InfoWindow for each marker on the map
+      // Add a click event to each marker that calls the populated infowindow
       self.placeList().forEach(function(data) {
-        console.log('place list 126 ' + self.placeList()); // works
         var marker = data.marker;
         marker.addListener('click', function() {
-          //console.log('this is ' + this);
-          //console.log('click');
           populateInfoWindow(this, data, largeInfowindow);
       });
     });
@@ -135,126 +124,130 @@ var ViewPlaces = function() {
   // Call the function that creates the InfoWindows
   addInfoWindowToMarkers();
 
-  // Open the large infowindow at each marker.
+  // Open the large infowindow on each marker.
   function populateInfoWindow(marker, data, infowindow) {
 
-    var wikiURL, articleUrl, articleList, articleStr, replacedTitle;
-
-    replacedTitle = marker.title;
+    // Encode the marker title for the Wikipedia URL
+    var replacedTitle = marker.title;
     replacedTitle = encodeURIComponent(replacedTitle.trim());
 
-    //cssClass = self.css;
-    //console.log(cssClass + ' cssClass');
+    // Request JSON data from Wikipedia for the clicked marker
+    var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
 
-    wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
+    // Timeout for wikipedia page if it takes more than 8 seconds. Alert with a popup window if the connection fails
+      var wikiTimeout = setTimeout(function () {
+        alert("failed to load wikipedia page");
+      }, 8000);
 
+       // Request jsonp data from Wikipedia
+      $.ajax({
+        url: wikiURL,
+        dataType: "jsonp",
 
-    //timeout for wikipedia page if it takes more than 8 seconds
-        var wikiTimeout = setTimeout(function () {
-            alert("failed to load wikipedia page");
-        }, 8000);
+      // If the request is successful, process the data
+      }).done(function(response) {
 
-         //ajax requst
-        $.ajax({
-            url: wikiURL,
-            dataType: "jsonp",
+        // Use the 1st returned result
+        var articleList = response[0];
 
-            //jsonp datatype
-        }).done(function(response) {
+        // Loop through list string to create the Wikipedia link for in infowindow
+        for (var i = 0; i < articleList.length; i++) {
+          var articleStr = articleList[i];
+          var articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
 
-            var articleList = response[0];
+          // Add the Wikipedia link to the model data
+          data.articleUrl = articleUrl;
 
-            console.log('articleList ' + articleList);
+          // Check to make sure that a infowindow is not already opened, then open the infowindow for the marker
+          if (infowindow.marker != marker) {
+              infowindow.marker = marker;
 
-            for (var i = 0; i < articleList.length; i++) {
-              articleStr = articleList[i];
-              var articleUrl = 'http://en.wikipedia.org/wiki/' + replacedTitle;
+              // Content for the infowindow
+              var infoWindowHTML = '<div>' + marker.title + '<p><a href="' + data.articleUrl + '" title="' + data.imageInfo + '">' + 'More information from Wikipedia</a><p>' +
+                '<img src="images/' + data.image + '" alt="' + data.imageInfo + '">' +
+                '<p>' + data.imageInfo + '</p></div>';
 
-              data.articleUrl = articleUrl;
+              // Add the content to the infowindow
+              infowindow.setContent(infoWindowHTML);
 
-              //console.log(url);
-              if (infowindow.marker != marker) {
-                    infowindow.marker = marker;
-                    console.log('infowindow marker ' + infowindow.marker);
+              // Open the infowindow
+              infowindow.open(map, marker);
 
-                    var infoWindowHTML = '<div>' + marker.title + '<p><a href="' + data.articleUrl + '" title="' + data.imageInfo + '">' + 'More information from Wikipedia</a><p>' +
-                      '<img src="images/' + data.image + '" alt="' + data.imageInfo + '">' +
-                      '<p>' + data.imageInfo + '</p></div>';
+              // Make sure the marker property is cleared if the infowindow is closed.
+              infowindow.addListener('closeclick',function(){
+                infowindow.setMarker = null;
+              });
+            }
+        }
 
-                    console.log('articleUrl ' + data.articleUrl);
-                    console.log('imageInfo ' + data.imageInfo);
-                    console.log('data.image ' + data.image);
+          // Clear the timeout if wikipedia link is loaded successfully
+          clearTimeout(wikiTimeout);
+      });
 
-
-                    infowindow.setContent(infoWindowHTML);
-
-                    infowindow.open(map, marker);
-                  // Make sure the marker property is cleared if the infowindow is closed.
-                  infowindow.addListener('closeclick',function(){
-                    infowindow.setMarker = null;
-                  });
-                }
-          }
-            //timeout is cleared if wikipedia link is loaded successfully
-            clearTimeout(wikiTimeout);
-            //response from wikipedia api
-            //articleUrl = response[1];
-        });
-
-      // Check to make sure the infowindow is not already opened on this marker.
-
+  // Close the populateInfoWindow function
   }
 
-    // The following creates the filter function for the place names and map markers
+  /* The following creates the filter function for the place names and map markers */
 
-   this.filter = ko.observable('');
+  // Create the filter observable
+  this.filter = ko.observable('');
 
-    this.filteredPlaces = ko.computed(function() {
-    var filter = self.filter().toLowerCase();
-    if (!filter) {
-      self.placeList().forEach(function(data) {
-        //console.log('data marker ' + data.marker);
-                if (data.marker) {
-                    data.marker.setVisible(true);
-                }
-            });
-            return self.placeList();
-    } else {
-        return ko.utils.arrayFilter(self.placeList(), function(data) {
-            if (data.title.toLowerCase().indexOf(filter) > -1) {
-                data.marker.setVisible(true);
-                return true;
-            } else {
-                data.marker.setVisible(false);
-                return false;
-            }
-        });
+  // Create the filteredPlaced computered function
+  this.filteredPlaces = ko.computed(function() {
+
+  var filter = self.filter().toLowerCase();
+
+  // If nothing is filtered...
+  if (!filter) {
+
+    // Loop through each bound place name
+    self.placeList().forEach(function(data) {
+
+      // If there is a matching marker name, show it
+      if (data.marker) {
+        data.marker.setVisible(true);
       }
-    }, self);
+    });
+        return self.placeList();
 
-    this.applyFilter = function (place) {
-        console.log ('this is this place name + ' );
-    };
+    } else {
 
-    ViewPlaces.list = function(data, marker) {
+      // Loop through the bound place names
+      return ko.utils.arrayFilter(self.placeList(), function(data) {
+
+        // If there is a matching place name
+        if (data.title.toLowerCase().indexOf(filter) > -1) {
+
+            // Show it
+            data.marker.setVisible(true);
+            return true;
+        } else {
+
+            // Show nothing
+            data.marker.setVisible(false);
+            return false;
+        }
+      });
+    }
+  }, self);
+
+  // Call the applyFilter function
+  this.applyFilter = function (place) {};
+
+  // Apply click functionality to place names
+  ViewPlaces.list = function(data, marker) {
     google.maps.event.trigger(data.marker, 'click');
   };
 
+// End the ViewModel
+};
 
 
-}; // end VM
-
-
-//Function to load map and start up app
-// Load  Google Map:   map = new google.maps.Map(document.getElementById('map') etc.
-// Instantiate ViewModel:   ko.applyBindings(new ViewModel());
-/* Maps API here -- used for creating markers, tracking click events on markers, making the map and refreshing the map. -- API stuff */
-
-
-//var placeMarkers = [];
+// GOOGLE MAPS INITIALIZATION
 
 function initMap() {
-    // Create a styles array to use with the map.
+
+    // Create a styles array to use with the map
     var styles = [
     {
         featureType: "administrative",
@@ -408,15 +401,16 @@ function initMap() {
     }
 ];
 
-    // Constructor creates a new map - only center and zoom are required.
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 46.188294, lng: -86.4655739},
-      styles: styles,
-      mapTypeControl: false,
-      zoom: 10
-    });
+  // Create the constructor that initializes the map, centers the location, adds the styles, hides the mapTypeControl and adds the zoom
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 46.188294, lng: -86.4655739},
+    styles: styles,
+    mapTypeControl: false,
+    zoom: 10
+  });
 
-    //To Activate Knockout through app.js
-    ko.applyBindings(new ViewPlaces());
+  // Activate the ViewModel
+  ko.applyBindings(new ViewPlaces());
 
-} // close initMap function
+// close initMap function
+}
