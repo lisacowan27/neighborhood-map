@@ -1,22 +1,21 @@
 html,
 body {
-    font-family: Arial, sans-serif;
     height: 100%;
     margin: 0;
     padding: 0;
 }
 
-body, .text {
-  font: normal 300 16px/24px 'Nunito Sans', sans-serif;
+body,
+.text {
+  font: normal 300 16px/24px "Nunito Sans", sans-serif;
 }
 
 #map {
-
-    bottom:0px;
+    bottom:0;
     height: 600px;
-    left: 0px;
+    left: 0;
     position: absolute;
-    right: 0px;
+    right: 0;
 }
 
 input {
@@ -26,12 +25,15 @@ input {
 ::-webkit-input-placeholder {
     color: #b3b8b6;
 }
+
 ::-moz-placeholder {
     color: #b3b8b6;
 }
+
 :-ms-input-placeholder {
     color: #b3b8b6;
 }
+
 :-moz-placeholder {
     color: #b3b8b6;
 }
@@ -46,7 +48,7 @@ hr {
   color: #333;
   padding-right: 3%;
   margin-bottom: 20px;
-  font: normal 600 42px/42px 'Indie Flower', cursive;
+  font: normal 600 42px/42px "Indie Flower", cursive;
 }
 
 .h2 {
@@ -67,7 +69,6 @@ hr {
     line-height: 35px;
 }
 
-.places-search,
 .filter,
 .form-control,
 .input-group {
@@ -80,15 +81,17 @@ hr {
 }
 
 .text {
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
 }
 
-a, a:visited {
+a,
+a:visited {
   color: #00b3e6;
   text-decoration: none;
 }
 
-a:hover, a:active {
+a:hover,
+a:active {
   text-decoration: underline;
 }
 
@@ -102,22 +105,13 @@ Map styles
 --------------------------------------------- */
 
 .gm-style .gm-style-iw {
-  font: normal 300 16px/24px 'Nunito Sans', sans-serif;
+  font: normal 300 16px/24px "Nunito Sans", sans-serif;
   padding: 2%;
 }
 
 /* ------------------------------------------
 Media queries
 --------------------------------------------- */
-
-@media only screen and (max-width:900px) {
-
-}
-
-@media only screen and (max-width: 768px) {
-
-
-}
 
 @media only screen and (max-width: 600px) {
 
@@ -134,13 +128,11 @@ Media queries
 
 @media only screen and (max-width: 500px) {
 
-body, .text {
-  font: normal 300 20px/28px 'Nunito Sans', sans-serif;
-}
+  body,
+  .text {
+    font-size: 20px;
+    line-height: 28px;
+  }
 
 }
 
-@media only screen and (max-width: 414px) {
-
-
-}
