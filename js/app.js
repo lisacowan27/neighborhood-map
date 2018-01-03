@@ -127,7 +127,7 @@ var ViewPlaces = function() {
         marker.addListener('click', function() {
           //console.log('this is ' + this);
           //console.log('click');
-          populateInfoWindow(this, largeInfowindow);
+          populateInfoWindow(this, data, largeInfowindow);
       });
     });
   }
@@ -145,8 +145,6 @@ var ViewPlaces = function() {
 
     //cssClass = self.css;
     //console.log(cssClass + ' cssClass');
-
-    self.placeList().forEach(function(data) {
 
     wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + replacedTitle + '&format=json&callback=wikiCallback';
 
@@ -179,12 +177,10 @@ var ViewPlaces = function() {
                     infowindow.marker = marker;
                     console.log('infowindow marker ' + infowindow.marker);
 
-                    var infoWindowHTML = '<div>' +
-                    marker.title + '<p><a href=' + data.articleUrl + ' title=' + data.imageInfo + '">' +
-                    'More information from Wikipedia</a><p>' +
-                    '<img src="images/' + data.image + '" alt="' + data.imageInfo + '">' +
-                    '<p>' + data.imageInfo + '</p>'
-                    '</div>'
+                    var infoWindowHTML = '<div>' + marker.title + '<p><a href="' + data.articleUrl + '" title="' + data.imageInfo + '">' + 'More information from Wikipedia</a><p>' +
+                      '<img src="images/' + data.image + '" alt="' + data.imageInfo + '">' +
+                      '<p>' + data.imageInfo + '</p></div>';
+
                     console.log('articleUrl ' + data.articleUrl);
                     console.log('imageInfo ' + data.imageInfo);
                     console.log('data.image ' + data.image);
@@ -206,7 +202,6 @@ var ViewPlaces = function() {
         });
 
       // Check to make sure the infowindow is not already opened on this marker.
-    });
 
   }
 
