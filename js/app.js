@@ -230,7 +230,7 @@ var ViewPlaces = function () {
 
     // Timeout for wikipedia page if it takes more than 8 seconds. Alert with a popup window if the connection fails
     var wikiTimeout = setTimeout(function () {
-      alert("failed to load wikipedia page");
+      alert("Failed to load Wikipedia page");
     }, 8000);
 
     // Request jsonp data from Wikipedia
@@ -500,3 +500,7 @@ function initMap() {
 
   // close initMap function
 }
+
+  function mapError () {
+        alert("Failed to load Google Maps");
+      };
