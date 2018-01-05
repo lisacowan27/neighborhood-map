@@ -166,11 +166,22 @@ var ViewPlaces = function () {
       icon: defaultIcon
     });
 
+    function toggleBounce(markers) {
+      if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
+
     // Add the markers created in the previous function to an array
     markers.push(data.marker);
 
     // Add markers to model data
     marker = data.marker;
+
+    console.log('marker ' + marker);
+    console.log('data ' + data);
 
     // Rollovers for markers
     marker.addListener('mouseover', function () {
@@ -212,8 +223,9 @@ var ViewPlaces = function () {
     // Add a click event to each marker that calls the populated infowindow
     self.placeList().forEach(function (data) {
       var marker = data.marker;
-      marker.addListener('click', function () {
+      marker.addListener('click', function (toggleBounce) {
         populateInfoWindow(this, data, largeInfowindow);
+        toggleBounce(marker);
       });
     });
   }
