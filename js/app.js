@@ -191,6 +191,11 @@ var ViewPlaces = function () {
     }
     map.fitBounds(bounds);
 
+    // Add window resize to make sure markers always fit when the user resizes the map
+    google.maps.event.addDomListener(window, 'resize', function() {
+      map.fitBounds(bounds); // `bounds` is a `LatLngBounds` object
+    });
+
   });
 
   /* The following section involves the creation of markers and map boundaries for the markers */
