@@ -166,14 +166,6 @@ var ViewPlaces = function () {
       icon: defaultIcon
     });
 
-    function toggleBounce(markers) {
-      if (marker.getAnimation() !== null) {
-        marker.setAnimation(null);
-      } else {
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-      }
-    }
-
     // Add the markers created in the previous function to an array
     markers.push(data.marker);
 
@@ -182,6 +174,17 @@ var ViewPlaces = function () {
 
     console.log('marker ' + marker);
     console.log('data ' + data);
+
+    // Add bounce animation with timeout to markers when they are clicked
+    google.maps.event.addListener(data.marker, 'click', function () {
+      if (data.marker.getAnimation() !== null) {
+        data.marker.setAnimation(null);
+      } else {
+        data.marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function(){ data.marker.setAnimation(null);
+        }, 1400);
+      }
+    });
 
     // Rollovers for markers
     marker.addListener('mouseover', function () {
@@ -223,9 +226,9 @@ var ViewPlaces = function () {
     // Add a click event to each marker that calls the populated infowindow
     self.placeList().forEach(function (data) {
       var marker = data.marker;
-      marker.addListener('click', function (toggleBounce) {
+      marker.addListener('click', function () {
         populateInfoWindow(this, data, largeInfowindow);
-        toggleBounce(marker);
+        //toggleBounce(marker);
       });
     });
   }
@@ -246,17 +249,18 @@ var ViewPlaces = function () {
       replacedTitle + '&format=json&callback=wikiCallback';
 
     // Timeout for wikipedia page if it takes more than 8 seconds. Alert with a popup window if the connection fails
-    var wikiTimeout = setTimeout(function () {
+    /*var wikiTimeout = setTimeout(function () {
       alert("Failed to load Wikipedia page");
-    }, 8000);
+    }, 8000);*/
 
     // Request jsonp data from Wikipedia
     $.ajax({
+      // Ajax settings
       url: wikiURL,
       dataType: "jsonp",
 
       // If the request is successful, process the data
-    }).done(function (response) {
+    }).done(function (data) {
 
       // Use the 1st returned result
       var articleList = response[0];
@@ -295,10 +299,10 @@ var ViewPlaces = function () {
         }
       }
 
-      // Clear the timeout if wikipedia link is loaded successfully
-      clearTimeout(wikiTimeout);
+    // Alert window if Wikipedia fails to load
+    }).fail(function (jqXHR, textStatus) {
+      alert("Failed to load Wikipedia page");
     });
-
     // Close the populateInfoWindow function
   }
 
