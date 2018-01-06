@@ -181,7 +181,7 @@ var ViewPlaces = function () {
         data.marker.setAnimation(null);
       } else {
         data.marker.setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout(function(){ data.marker.setAnimation(null);
+        setTimeout(function(){data.marker.setAnimation(null);
         }, 1400);
       }
     });
@@ -207,7 +207,7 @@ var ViewPlaces = function () {
 
     // Add window resize to make sure markers always fit when the user resizes the map
     google.maps.event.addDomListener(window, 'resize', function() {
-      map.fitBounds(bounds); // `bounds` is a `LatLngBounds` object
+      map.fitBounds(bounds);
     });
 
   });
@@ -239,16 +239,13 @@ var ViewPlaces = function () {
   // Open the large infowindow on each marker.
   function populateInfoWindow(marker, data, infowindow) {
 
-    // Encode the marker title for the Wikipedia URL
+    // Rename title for use in wikiURL
     var title = marker.title;
-    //replacedTitle = encodeURIComponent(replacedTitle.trim());
 
     // Request JSON data from Wikipedia for the clicked marker
     var wikiURL =
       'https://en.wikipedia.org/w/api.php?action=opensearch&search=' +
       title + '&format=json&callback=wikiCallback';
-
-    // Timeout for wikipedia page if it takes more than 8 seconds. Alert with a popup window if the connection fails
 
     // Request jsonp data from Wikipedia
     $.ajax({
@@ -517,6 +514,7 @@ function initMap() {
   // close initMap function
 }
 
-  function mapError () {
-        alert("Failed to load Google Maps");
-      };
+// Function to alert to failure of Google Map load
+function mapError () {
+  alert("Failed to load Google Maps");
+}
