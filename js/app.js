@@ -48,7 +48,7 @@ var places = [
     imageInfo: 'Indian River, Hiawatha National Forest'
   },
   {
-    title: 'Kitch-iti-kipi (Big Spring)',
+    title: 'Kitch-iti-kipi',
     LatLng: {
       lat: 46.0041576,
       lng: -86.3906836
@@ -240,18 +240,15 @@ var ViewPlaces = function () {
   function populateInfoWindow(marker, data, infowindow) {
 
     // Encode the marker title for the Wikipedia URL
-    var replacedTitle = marker.title;
-    replacedTitle = encodeURIComponent(replacedTitle.trim());
+    var title = marker.title;
+    //replacedTitle = encodeURIComponent(replacedTitle.trim());
 
     // Request JSON data from Wikipedia for the clicked marker
     var wikiURL =
       'https://en.wikipedia.org/w/api.php?action=opensearch&search=' +
-      replacedTitle + '&format=json&callback=wikiCallback';
+      title + '&format=json&callback=wikiCallback';
 
     // Timeout for wikipedia page if it takes more than 8 seconds. Alert with a popup window if the connection fails
-    /*var wikiTimeout = setTimeout(function () {
-      alert("Failed to load Wikipedia page");
-    }, 8000);*/
 
     // Request jsonp data from Wikipedia
     $.ajax({
@@ -260,19 +257,17 @@ var ViewPlaces = function () {
       dataType: "jsonp",
 
       // If the request is successful, process the data
-    }).done(function (data) {
+    }).done(function (response) {
 
-      // Use the 1st returned result
-      var articleList = response[0];
+      // Use the 4th returned piece of data for the URL
+      var urlList = response[3];
 
       // Loop through list string to create the Wikipedia link for in infowindow
-      for (var i = 0; i < articleList.length; i++) {
-        var articleStr = articleList[i];
-        var articleUrl = 'http://en.wikipedia.org/wiki/' +
-          replacedTitle;
+      for (var i = 0; i < response.length; i++) {
+        var wikiLinkUrl = urlList[i];
 
         // Add the Wikipedia link to the model data
-        data.articleUrl = articleUrl;
+        data.wikiLinkUrl = wikiLinkUrl;
 
         // Check to make sure that a infowindow is not already opened, then open the infowindow for the marker
         if (infowindow.marker != marker) {
@@ -280,7 +275,7 @@ var ViewPlaces = function () {
 
           // Content for the infowindow
           var infoWindowHTML = '<div>' + marker.title + '<p><a href="' +
-            data.articleUrl + '" title="' + data.imageInfo + '">' +
+            data.wikiLinkUrl + '" title="' + data.imageInfo + '">' +
             'More information from Wikipedia</a><p>' +
             '<img src="images/' + data.image + '" alt="' + data.imageInfo +
             '">' +
