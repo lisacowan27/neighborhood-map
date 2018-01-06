@@ -1,7 +1,5 @@
-"use strict";
-
 // GLOBAL VARIABLES
-var map;
+var map, google, ko;
 
 // MODEL
 
@@ -283,13 +281,13 @@ var ViewPlaces = function () {
 
           // Open the infowindow
           infowindow.open(map, marker);
-
-          // Make sure the marker property is cleared if the infowindow is closed.
-          infowindow.addListener('closeclick', function () {
-            infowindow.setMarker = null;
-          });
         }
       }
+
+      // Make sure the marker property is cleared if the infowindow is closed.
+      infowindow.addListener('closeclick', function () {
+          infowindow.setMarker = null;
+      });
 
     // Alert window if Wikipedia fails to load
     }).fail(function (jqXHR, textStatus) {
