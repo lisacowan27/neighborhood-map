@@ -108,6 +108,15 @@ button {
   display: none;
 }
 
+ul {
+  list-style: disc;
+  margin: 15px;
+}
+
+ul li {
+  margin-left: 10px;
+}
+
 /* ------------------------------------------
 Map styles
 --------------------------------------------- */
