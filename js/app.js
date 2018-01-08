@@ -333,6 +333,11 @@ var ViewPlaces = function () {
     google.maps.event.trigger(data.marker, 'click');
   };
 
+  // Hide introduction on moble
+  $( "button" ).click(function() {
+    $( ".introduction" ).toggle();
+  });
+
   // End the ViewModel
 };
 
