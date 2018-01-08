@@ -115,6 +115,7 @@ ul {
 
 ul li {
   margin-left: 10px;
+  line-height: 30px;
 }
 
 /* ------------------------------------------
@@ -124,6 +125,10 @@ Map styles
 .gm-style .gm-style-iw {
   font: normal 300 16px/24px "Nunito Sans", sans-serif;
   padding: 2%;
+}
+
+.gm-style .gm-style-iw p {
+  line-height: 36px;
 }
 
 /* ------------------------------------------
@@ -150,6 +155,10 @@ Media queries
     font-size: 0.75em;
     color: #333;
   }
+
+  ul li {
+  line-height: 35px;
+}
 
 }
 
