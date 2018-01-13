@@ -170,9 +170,6 @@ var ViewPlaces = function () {
     // Add markers to model data
     marker = data.marker;
 
-    console.log('marker ' + marker);
-    console.log('data ' + data);
-
     // Add bounce animation with timeout to markers when they are clicked
     google.maps.event.addListener(data.marker, 'click', function () {
       if (data.marker.getAnimation() !== null) {
